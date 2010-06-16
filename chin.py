@@ -1,5 +1,6 @@
 #chin.py
 import sys
+import os
 
 # Class that holds information for every bytespan
 class ByteSpan:
@@ -21,11 +22,12 @@ class ByteSpan:
 	def getCorefId(self):
 		return self.corefId
 
+
 def generateTagOpen(id):
-	return "<div class=\"" + str(id) + "\">"
+	return "<span class=\"" + str(id) + "\">"
 
 def generateTagClose():
-	return "</div>"
+	return "</span>"
 
 def generateJs():
 	print "this is a stub for later"
@@ -40,8 +42,8 @@ lines = raw.readlines()
 # Create a list to hold the ByteSpan objects
 bss = list()
 
-
 # Process each line in succession
+# 	Parse bytespan and corefid, put in object, place object in list
 for line in range(1, len(lines)):
 	words = lines[line].split()
 	byteRange = words[1].split(",")
@@ -49,28 +51,55 @@ for line in range(1, len(lines)):
 	bs = ByteSpan(int(byteRange[0]), int(byteRange[1]), int(id))
 	bss.append(bs)
 
+# Create graph that tells how much the offset is at any given point
+graph = list()
+fileSize = os.path.getsize(sys.argv[2])
+for i in range(0, fileSize):
+	graph.append(0)
+
+#for item in bss:
+#	for i in range(item.getStart(), item.getEnd()):
+#		graph[i] += 15 + len(str(item.getCorefId()))
+#	for i in range(item.getEnd()+1, fileSize):
+#		graph[i] += 15 + len(str(item.getCorefId())) + 7
+
 # Create the html file
 overlay = open("corefoverlay.html", 'w')
 mirror = open(sys.argv[2], 'rb')
+start = "<html><head></head>\n<body>\n"
+overlay.write(start)
 
-print "<html><head></head>\n<body>\n"
+for n in range(len(graph)):
+	graph[n] += len(start)
 
 index = 0
-# Begin generating html file
+# Overlay HTML with divs
 for item in bss:
-	#item.printargs() #debug
+	# reset if bytespan is before current position
 	if item.getStart() < index:
 		mirror.seek(item.getStart())
+		overlay.seek(item.getStart())
 		index = item.getStart()
+
 	# while placeholder <= start of bytespan
 	while index < item.getStart():
-		print mirror.read(1);
+		overlay.write(mirror.read(1))
 		index+=1
-	print generateTagOpen(item.getCorefId())
+
+	overlay.write(generateTagOpen(item.getCorefId()))
+	
 	# while placeholder in bytespan
 	while index <= item.getEnd():
-		print mirror.read(1)
+		overlay.write(mirror.read(1))
+		graph[index] += 15 + len(str(item.getCorefId()))
 		index+=1
-	print generateTagClose()
 
-print "\n</body>\n</html>"
+	overlay.write(generateTagClose())
+
+	for i in range(item.getEnd()+1, fileSize):
+		graph[i] += 15 + len(str(item.getCorefId())) + 7
+		i+=1
+
+
+overlay.write("\n</body>\n</html>")
+print graph
