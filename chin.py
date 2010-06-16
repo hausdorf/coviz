@@ -32,6 +32,12 @@ def generateTagClose():
 def generateJs():
 	print "this is a stub for later"
 
+def orderBss(x, y):
+	if y.getStart() != x.getStart():
+		return x.getStart() - y.getStart()
+	else:
+		return (x.getEnd() - x.getStart()) - (y.getEnd() - y.getStart())
+
 
 # Open file from argument
 raw = open(sys.argv[1], 'r')
@@ -51,17 +57,17 @@ for line in range(1, len(lines)):
 	bs = ByteSpan(int(byteRange[0]), int(byteRange[1]), int(id))
 	bss.append(bs)
 
+# Sort the list
+bss = sorted(bss, cmp=orderBss)
+for i in bss:
+	i.printargs()
+sys.exit()
+
 # Create graph that tells how much the offset is at any given point
 graph = list()
 fileSize = os.path.getsize(sys.argv[2])
 for i in range(0, fileSize):
 	graph.append(0)
-
-#for item in bss:
-#	for i in range(item.getStart(), item.getEnd()):
-#		graph[i] += 15 + len(str(item.getCorefId()))
-#	for i in range(item.getEnd()+1, fileSize):
-#		graph[i] += 15 + len(str(item.getCorefId())) + 7
 
 # Create the html file
 overlay = open("corefoverlay.html", 'w')
