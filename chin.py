@@ -161,12 +161,16 @@ while index < bss[0].getStart():
 # 	8. Update graph that keeps track of offset
 # 	9. Copy back the buffer
 bssItem = 0
-while bssItem < 2:
+while bssItem < 3:
 	index = bss[bssItem].getStart() # 1
 	read.seek(index)
 	write.seek(bss[bssItem].getStart() + graph[bss[bssItem].getStart()]) # 2
-	buffer = createBuffer(bss[bssItem].getEnd() + graph[bss[bssItem].getEnd()]) # 3
-	print buffer
+	buffer = createBuffer(bss[bssItem].getEnd() + graph[bss[bssItem].getEnd()-1]) # 3
+	print "buffer: " + str(bss[bssItem].getEnd()) + " " + str(graph[bss[bssItem].getEnd()]) + buffer
+	if bssItem == 3:
+		print str(bss[bssItem].getEnd() + graph[bss[bssItem].getEnd()])
+		print graph
+		sys.exit()
 	tag = generateTagOpen(bss[bssItem].getCorefId())
 	print tag
 	write.write(tag) # 4
@@ -180,6 +184,7 @@ while bssItem < 2:
 	print tag
 	write.write(tag) # 7
 	updateGraph(bss[bssItem].getEnd(), len(generateTagClose())) # 8
+	write.seek(bss[bssItem].getEnd() + graph[bss[bssItem].getEnd()]) # 9
 	write.write(buffer)
 
 	bssItem+=1
