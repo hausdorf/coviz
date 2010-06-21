@@ -38,16 +38,6 @@ def orderBss(x, y):
 	else:
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
-def openParallelByteSpans(index, i, n, reader, writer):
-	if i > len(bss):
-		return
-	if bss[n].getStart() != bss[i].getStart():
-		return
-	
-	tag = generateTagOpen(bss[i].getCorefId())
-	print tag
-
-	openParallelByteSpans(index, i, n+1, reader, writer)
 
 
 # Open file from argument
@@ -71,8 +61,8 @@ for line in range(1, len(lines)):
 # Sort the list. Begin with starting position of bytespan; in the
 # 	event of a tie, the largest bytespan comes first.
 bss = sorted(bss, cmp=orderBss)
-for i in bss:
-	i.printargs()
+#for i in bss:
+	#i.printargs()
 
 # Create graph that tells how much the offset is at any given point in the file.
 # 	Adding the <span> tags to the HTML file changes how many bytes into the file
@@ -84,25 +74,86 @@ for i in range(0, fileSize):
 	graph.append(0)
 
 # Open new html file, begin writing basic template data to it.
-overlay = open("corefoverlay.html", 'w')
-mirror = open(sys.argv[2], 'rb')
+write = open("corefoverlay.html", 'w')
+read = open(sys.argv[2], 'rb')
 start = "<html><head></head>\n<body>\n"
-overlay.write(start)
+write.write(start)
 
 # Update offset graph
 for n in range(len(graph)):
 	graph[n] += len(start)
 
 
+
+index = 0
+# Handle everything that happens before the first bytespan
+while index < bss[0].getStart():
+	c = read.read(1)
+	print c
+	index+=1
+
+# Handle each bytespan
+currBss = 0
+while currBss < len(bss):
+	# Count bytespans that tie
+	count = 0
+	currTmp = currBss+1
+	while bss[currTmp].getStart() == bss[currBss].getStart():
+		count+=1
+		currTmp+=1
+
+	# Generate opening tag for each
+	for i in range(currBss, currTmp): # might need to be changed back to currBss+count+1
+		tag = generateTagOpen(bss[i].getCorefId())
+		print tag
+	
+
+	# Write until it's time to close the current tag
+	curr = currBss+count
+	while curr >= currBss:
+		# Check to see how many tags open between now and when
+		# the next tag closes
+		nextTagList = list()
+		print bss[currTmp].getStart(), bss[curr].getEnd()
+		while bss[curr].getEnd() < bss[currTmp].getStart(): 
+			print bss[currTmp].getStart()
+
+
+		#if bss[currTmp].getStart() < bss[currIndex].getEnd():
+		#	print bss[currTmp].getStart()
+		#	writeOpenTag = True
+
+		while index <= bss[currIndex].getEnd():
+			c = read.read(1)
+			print c
+			index+=1
+		
+		#if writeOpenTag:
+		#	tag = generateTagOpen(bss[currTmp].getCorefId())
+		#	print tag
+		#currIndex-=1
+		currIndex-=1
+		sys.exit()
+
+	sys.exit()
+
+
+
+
+
+
 index = 0
 for n in range(len(bss)):
+	if n > 0:
+		n = i
+
 	# Write to overlay until beginning of next bytespan
 	while index < bss[n].getStart():
 		c = mirror.read(1)
 		print c
 		index+=1
 
-	print index, bss[n].getEnd(), bss[n+1].getStart()
+	#print index, bss[n].getEnd(), bss[n+1].getStart()
 
 	tag = generateTagOpen(bss[n].getCorefId())
 	print tag
@@ -114,11 +165,12 @@ for n in range(len(bss)):
 		tag = generateTagOpen(bss[i].getCorefId())
 		print tag
 		i+=1
-
+	
 	# Write the content until the end of that bytespan: then
 	tmp = i
 	while tmp > n:
-		while index <= bss[i].getEnd():
+		print i, len(bss)
+		while index <= bss[tmp].getEnd():
 			print mirror.read(1)
 			index+=1
 		tag = generateTagClose()
@@ -128,6 +180,9 @@ for n in range(len(bss)):
 	#sys.exit()
 
 sys.exit()
+
+
+
 
 
 index = 0
