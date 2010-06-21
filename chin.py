@@ -78,7 +78,10 @@ def updateGraph(pos, updateAmt):
 # 	sort the bytespan objects in bss, this tends to be no more than a
 # 	few characters.
 def createBuffer(endPosOfBytespan):
-	print "here"
+	readOverlay = open("corefoverlay.html", 'r')
+	readOverlay.seek(endPosOfBytespan, 0)
+	buffer = readOverlay.read()
+	return buffer
 
 
 
@@ -162,7 +165,8 @@ while bssItem < 2:
 	index = bss[bssItem].getStart() # 1
 	read.seek(index)
 	write.seek(bss[bssItem].getStart() + graph[bss[bssItem].getStart()]) # 2
-	buffer = createBuffer(bss[bssItem].getEnd()) # 3
+	buffer = createBuffer(bss[bssItem].getEnd() + graph[bss[bssItem].getEnd()]) # 3
+	print buffer
 	tag = generateTagOpen(bss[bssItem].getCorefId())
 	print tag
 	write.write(tag) # 4
@@ -176,5 +180,6 @@ while bssItem < 2:
 	print tag
 	write.write(tag) # 7
 	updateGraph(bss[bssItem].getEnd(), len(generateTagClose())) # 8
+	write.write(buffer)
 
 	bssItem+=1
