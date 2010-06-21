@@ -137,7 +137,9 @@ while index < bss[0].getStart():
 
 # Process 1 bytespan object:
 # 	1. Reset the var index, which we use to keep track of where our "cursor" is in the
-# 		original (raw) text file.
+# 		original (raw) text file. Seek read's cursor to this point, as we want to start
+# 		reading from here. If you don't seek, then you end up continuing reading from the
+# 		last point you were at.
 # 	2. Seek to the byte in the overlay file that's delineated by [item].getStart()
 # 		Because we are adding tags, the location of the byte in the original file will
 # 		not correspond directly to the byte in the overlay file; to get the corresponding
@@ -157,14 +159,15 @@ while index < bss[0].getStart():
 # 	9. Copy back the buffer
 bssItem = 0
 while bssItem < 2:
-	index = bss[0].getStart() # 1
-	write.seek(bss[0].getStart() + graph[bss[0].getStart()]) # 2
-	buffer = createBuffer(bss[0].getEnd()) # 3
-	tag = generateTagOpen(bss[0].getCorefId())
+	index = bss[bssItem].getStart() # 1
+	read.seek(index)
+	write.seek(bss[bssItem].getStart() + graph[bss[bssItem].getStart()]) # 2
+	buffer = createBuffer(bss[bssItem].getEnd()) # 3
+	tag = generateTagOpen(bss[bssItem].getCorefId())
 	print tag
 	write.write(tag) # 4
-	updateGraph(bss[0].getStart(), len(generateTagOpen(bss[0].getCorefId()))) # 5
-	while index < bss[0].getEnd(): # 6
+	updateGraph(bss[bssItem].getStart(), len(generateTagOpen(bss[bssItem].getCorefId()))) # 5
+	while index < bss[bssItem].getEnd(): # 6
 		c = read.read(1)
 		print c
 		write.write(c)
@@ -172,6 +175,6 @@ while bssItem < 2:
 	tag = generateTagClose()
 	print tag
 	write.write(tag) # 7
-	updateGraph(bss[0].getEnd(), len(generateTagClose())) # 8
+	updateGraph(bss[bssItem].getEnd(), len(generateTagClose())) # 8
 
 	bssItem+=1
