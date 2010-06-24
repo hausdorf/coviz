@@ -2,6 +2,14 @@
 import sys
 import os
 
+#### GLOBAL CONTROLS ####
+####                 ####
+# These are easy-access variables to change the behavior of the program.
+# Want to change things like what your output file is called? Start here.
+overlayFileTitle = "corefoverlay.html" # what the generated HTML file is called
+
+#### INTERNAL DATA-HANDLING CLASSES ####
+####                                ####
 # Class that holds information for every bytespan.
 #	 A bytespan is typically a NP that is associated with a coref
 #	 chain. The actual bytespan of a Bytespan object refers to the
@@ -15,11 +23,7 @@ class ByteSpan:
 		self.start = start
 		self.end = end
 		self.corefId = corefId
-	
-	# For debugging
-	def printargs(self):
-		print self.start, self.end, self.corefId
-	
+
 	def getStart(self):
 		return self.start
 
@@ -28,6 +32,16 @@ class ByteSpan:
 
 	def getCorefId(self):
 		return self.corefId
+	
+	# For debugging
+	def printargs(self):
+		print self.start, self.end, self.corefId
+
+
+#### GLOBAL METHODS ####
+####                ####
+# Generally handle tasks that happen more than once, or that potentially
+# need to be customized easily and quickly.
 
 # Generates a span tag with an id specified in the formal params. The
 #	 intended use of this function is to generate a span tag whose id
@@ -41,7 +55,10 @@ def generateTagClose():
 	return "</span>"
 
 def generateJs():
-	print "this is a stub for later"
+	script = "\n<script language=\"JavaScript\">\n"
+	script += "function peek() {\nalert('hi!');\n}\n"
+	script += "</script>\n"
+	return script
 
 # The ordering function that helps sort() sort the bss objects. It first
 #	 looks at initial position, indicated by bss[anything].getStart(); if
@@ -54,33 +71,19 @@ def orderBss(x, y):
 	else:
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
-# Copies all characters in the overlay file from the point pos to EOF.
-#	 We use this to insert tags into the document; we don't want to
-#	 overwrite everything, but instead, to add some text, and preserve
-#	 whatever comes after this. The way to do this is to copy everything
-#	 after into a buffer, and then write it back afterwards. Because we
-#	 sort the bytespan objects in bss, this tends to be no more than a
-#	 few characters.
-def createBuffer(endPosOfBytespan):
-	readOverlay = open("corefoverlay.html", 'r')
-	readOverlay.seek(endPosOfBytespan, 0)
-	buffer = readOverlay.read()
-	return buffer
-
-def readBytes(start, stop):
-	readOverlay = open("corefoverlay.html", 'r')
-	readOverlay.seek(start, 0)
-	sentence = readOverlay.read(stop-start)
-	return sentence
-
-
-
-# --- BEGIN MAIN ALGORITHM ---
+#### CLI PROCESSING ####
+####                ####
 
 if sys.argv[1] == "open":
 	# OPEN OVERLAY HTML HERE!
 	os.system("open \"http://www.google.com\"")
 	sys.exit()
+
+
+#### SETUP ####
+####       ####
+# Parsing KEY, sorting the ByteSpan objects, etc.
+
 
 # Open file from argument
 raw = open(sys.argv[1], 'r')
@@ -91,8 +94,7 @@ lines = raw.readlines()
 # Create a list to hold the ByteSpan objects
 bss = list()
 
-# Process each line in succession
-#	 Parse bytespan and corefid, put in object, place object in list
+# Process each line of the KEY file in succession, put in ByteSpan object
 for line in range(1, len(lines)):
 	words = lines[line].split()
 	byteRange = words[1].split(",")	#parse bytespan
@@ -105,32 +107,32 @@ for line in range(1, len(lines)):
 bss = sorted(bss, cmp=orderBss)
 
 # Open new html file, begin writing basic template data to it.
-write = open("corefoverlay.html", 'w')
+write = open(overlayFileTitle, 'w')
 read = open(sys.argv[2], 'rb')
-start = "<html><head></head>\n<body>\n"
+start = "<html>\n\n<head>" + generateJs() + "</head>\n\n<body>\n"
 write.write(start)
 
 
+#### WRITE JS LINKS ####
+####                ####
+for item in bss:
+	print "here"
 
-
-
-
-
-
-
+#### WRITE THE OVERLAY FILE ####
+####                        ####
+# Finally!
 
 char = True
 charIndex = 0
-bytespanOpen = 0
-bytespanClose = 0
+bytespanIndex = 0
 bytespanStack = list()
 
 while char:
 	char = read.read(1)
-	while bytespanOpen < len(bss) and bss[bytespanOpen].getStart() == charIndex:
-		write.write(generateTagOpen(bss[bytespanOpen].getCorefId()))
-		bytespanStack.insert(0, bss[bytespanOpen])
-		bytespanOpen+=1
+	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex:
+		write.write(generateTagOpen(bss[bytespanIndex].getCorefId()))
+		bytespanStack.insert(0, bss[bytespanIndex])
+		bytespanIndex+=1
 
 	while len(bytespanStack) != 0 and bytespanStack[0].getEnd() == charIndex:
 		write.write(generateTagClose())
