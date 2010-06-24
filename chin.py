@@ -55,8 +55,10 @@ def generateTagClose():
 	return "</span>"
 
 def generateJs():
-	script = "\n<script language=\"JavaScript\">\n"
-	script += "function peek() {\nalert('hi!');\n}\n"
+	script = "\n<script>\n"
+	script += "function peek(divId) {\n"
+	script += "document.getElementById(divId).style.color = 'blue';\n"
+	script += "}\n"
 	script += "</script>\n"
 	return script
 
@@ -72,7 +74,8 @@ def orderBss(x, y):
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
 def createIdLink(itemId):
-	return "<a href=\"\" onclick=\"peek()\">" + str(itemId) + "</a>\t"
+	return "<span onclick=\"peek(" + str(itemId) + ")\">" + str(itemId) + "</a>\t"
+
 
 #### CLI PROCESSING ####
 ####                ####
@@ -131,7 +134,19 @@ for id in corefIdList:
 
 #### WRITE THE OVERLAY FILE ####
 ####                        ####
-# Finally!
+# 1. Read one character from raw.txt
+# 2. Traverse through all bytespans that begin at the location of the current
+#   character. For each bytespan that begins at this character, generate an
+#   open tag (a), insert it into a stack the tracks unclosed tags (b).
+# 3. Traverse through all unclosed bytespans; if the current location is the
+#   place that a bytespan closes, then insert a closing tag. Do this for all
+#   tags that end at this position.
+# 4. Write the current character to file. At this point, we will have added
+#   all tags that need to open and close, and all that's left to do is append
+#   write the actual content into the overlay file. We handle this in a special
+#   way: (a) if it's a newline, we also insert a < p> tag so that it looks like
+#   it should when we open it in a browser; (b) in any other case, we just
+#   the actual character.
 
 char = True
 charIndex = 0
@@ -139,20 +154,21 @@ bytespanIndex = 0
 bytespanStack = list()
 
 while char:
-	char = read.read(1)
-	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex:
-		write.write(generateTagOpen(bss[bytespanIndex].getCorefId()))
-		bytespanStack.insert(0, bss[bytespanIndex])
+	char = read.read(1) #1
+	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
+		write.write(generateTagOpen(bss[bytespanIndex].getCorefId())) #2a
+		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
-	while len(bytespanStack) != 0 and bytespanStack[0].getEnd() == charIndex:
+	while len(bytespanStack) != 0 and bytespanStack[0].getEnd() == charIndex: #3
 		write.write(generateTagClose())
 		bytespanStack.pop(0)
 
+	# 4
 	if char == "\n":
-		write.write("<p>\n")
+		write.write("<p>\n") #4a
 	else:
-		write.write(char)
+		write.write(char) #4b
 	charIndex+=1
 
 sys.exit()
