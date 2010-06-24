@@ -71,6 +71,9 @@ def orderBss(x, y):
 	else:
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
+def createIdLink(itemId):
+	return "<a href=\"\" onclick=\"peek()\">" + str(itemId) + "</a>\t"
+
 #### CLI PROCESSING ####
 ####                ####
 
@@ -113,10 +116,18 @@ start = "<html>\n\n<head>" + generateJs() + "</head>\n\n<body>\n"
 write.write(start)
 
 
-#### WRITE JS LINKS ####
+#### WRITE ID LINKS ####
 ####                ####
+corefIdList = list()
 for item in bss:
-	print "here"
+	if corefIdList.count(item.getCorefId()) == 0:
+		corefIdList.append(item.getCorefId())
+
+corefIdList.sort()
+
+for id in corefIdList:
+	write.write(createIdLink(id))
+
 
 #### WRITE THE OVERLAY FILE ####
 ####                        ####
