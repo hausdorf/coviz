@@ -29,10 +29,7 @@ class ByteSpan:
 	def getCorefId(self):
 		return self.corefId
 
-# Generates a span tag with an id specified in the formal params.
-#	 Each bytespan object has covers a span of bytes. For example, the
-#	 bytespan 0,12 covers the bytes from 0 - 12. Each of these objects
-#	 is associated with a coref chain, indicated by the coref ID. The
+# Generates a span tag with an id specified in the formal params. The
 #	 intended use of this function is to generate a span tag whose id
 #	 is the same as the bytespan object's coref ID.
 def generateTagOpen(id):
@@ -90,6 +87,13 @@ def readBytes(start, stop):
 	return sentence
 
 
+
+# --- BEGIN MAIN ALGORITHM ---
+
+if sys.argv[1] == "open":
+	# OPEN OVERLAY HTML HERE!
+	os.system("open \"http://www.google.com\"")
+	sys.exit()
 
 # Open file from argument
 raw = open(sys.argv[1], 'r')
