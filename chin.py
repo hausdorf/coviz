@@ -11,13 +11,13 @@ overlayFileTitle = "corefoverlay.html" # what the generated HTML file is called
 #### INTERNAL DATA-HANDLING CLASSES ####
 ####                                ####
 # Class that holds information for every bytespan.
-#	 A bytespan is typically a NP that is associated with a coref
-#	 chain. The actual bytespan of a Bytespan object refers to the
-#	 literal place in a document at which the NP resides: for example,
-#	 1,12 is a bytespan that begins at 1 and ends at 12. The bytespan
-#	 object also keeps track of the coref ID associated with the
-#	 bytespan, which essentially indicates to which coref chain the
-#	 NP belongs.
+#  A bytespan is typically a NP that is associated with a coref
+#  chain. The actual bytespan of a Bytespan object refers to the
+#  literal place in a document at which the NP resides: for example,
+#  1,12 is a bytespan that begins at 1 and ends at 12. The bytespan
+#  object also keeps track of the coref ID associated with the
+#  bytespan, which essentially indicates to which coref chain the
+#  NP belongs.
 class ByteSpan:
 	def __init__(self, start, end, corefId):
 		self.start = start
@@ -51,13 +51,13 @@ class ByteSpan:
 # need to be customized easily and quickly.
 
 # Generates a span tag with an id specified in the formal params. The
-#	 intended use of this function is to generate a span tag whose id
-#	 is the same as the bytespan object's coref ID.
+#  intended use of this function is to generate a span tag whose id
+#  is the same as the bytespan object's coref ID.
 def generateTagOpen(id):
 	return "<span class=\"" + str(id) + "\">"
 
 # Generates a closing for a span tag.
-#	 Intended to be close a tag that was openend with generateTagOpen()
+#  Intended to be close a tag that was openend with generateTagOpen()
 def generateTagClose():
 	return "</span>"
 
@@ -71,10 +71,12 @@ def generateJs():
 	script += "    if(allHTMLTags[i].className==theClass) {\n"
 	script += "      allHTMLTags[i].style.color=\"blue\";\n"
 	script += "      allHTMLTags[i].style.fontWeight=\"bold\";\n"
+	script += "      allHTMLTags[i].style.textDecoration=\"underline\";\n"
 	script += "    }\n"
 	script += "    if(allHTMLTags[i].className==lastClass) {\n"
 	script += "      allHTMLTags[i].style.color=\"#000000\";\n"
 	script += "      allHTMLTags[i].style.fontWeight=\"normal\";\n"
+	script += "      allHTMLTags[i].style.textDecoration=\"none\";\n"
 	script += "    }\n"
 	script += "  }\n"
 	script += "  lastClass = theClass;\n"
@@ -83,10 +85,10 @@ def generateJs():
 	return script
 
 # The ordering function that helps sort() sort the bss objects. It first
-#	 looks at initial position, indicated by bss[anything].getStart(); if
-#	 one of them starts first, that one should come before the other in
-#	 the list. If they tie, the one that has the longest bytespan comes
-#	 first.
+#  looks at initial position, indicated by bss[anything].getStart(); if
+#  one of them starts first, that one should come before the other in
+#  the list. If they tie, the one that has the longest bytespan comes
+#  first.
 def orderBss(x, y):
 	if y.getStart() != x.getStart():
 		return x.getStart() - y.getStart()
@@ -129,7 +131,7 @@ for line in range(1, len(lines)):
 	bss.append(bs)	#add object to list
 
 # Sort the list. Begin with starting position of bytespan; in the
-#	 event of a tie, the largest bytespan comes first.
+#  event of a tie, the largest bytespan comes first.
 bss = sorted(bss, cmp=orderBss)
 
 # Open new html file, begin writing basic template data to it.
