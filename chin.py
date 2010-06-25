@@ -68,15 +68,15 @@ def generateJs():
 	script += "function peek(theClass) {\n"
 	script += "  var allHTMLTags = document.getElementsByTagName(\"*\");\n\n"
 	script += "  for(i=0; i<allHTMLTags.length;i++) {\n"
-	script += "    if(allHTMLTags[i].className==theClass) {\n"
-	script += "      allHTMLTags[i].style.color=\"blue\";\n"
-	script += "      allHTMLTags[i].style.fontWeight=\"bold\";\n"
-	script += "      allHTMLTags[i].style.textDecoration=\"underline\";\n"
-	script += "    }\n"
 	script += "    if(allHTMLTags[i].className==lastClass) {\n"
 	script += "      allHTMLTags[i].style.color=\"#000000\";\n"
 	script += "      allHTMLTags[i].style.fontWeight=\"normal\";\n"
 	script += "      allHTMLTags[i].style.textDecoration=\"none\";\n"
+	script += "    }\n"
+	script += "    if(allHTMLTags[i].className==theClass) {\n"
+	script += "      allHTMLTags[i].style.color=\"blue\";\n"
+	script += "      allHTMLTags[i].style.fontWeight=\"bold\";\n"
+	script += "      allHTMLTags[i].style.textDecoration=\"underline\";\n"
 	script += "    }\n"
 	script += "  }\n"
 	script += "  lastClass = theClass;\n"
@@ -96,7 +96,7 @@ def orderBss(x, y):
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
 def createIdLink(itemId):
-	return "<span onclick=\"peek('" + str(itemId) + "')\">" + str(itemId) + "</span>\t"
+	return "<span onclick=\"peek('" + str(itemId) + "')\" style=\"cursor:pointer;\">" + str(itemId) + "</span>\t"
 
 
 #### CLI PROCESSING ####
