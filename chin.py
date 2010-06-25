@@ -23,6 +23,13 @@ class ByteSpan:
 		self.start = start
 		self.end = end
 		self.corefId = corefId
+		self.count = 0
+	
+	def incCount():
+		self.count += 1
+
+	def getCount():
+		return self.count
 
 	def getStart(self):
 		return self.start
@@ -56,8 +63,19 @@ def generateTagClose():
 
 def generateJs():
 	script = "\n<script>\n"
-	script += "function peek(divId) {\n"
-	script += "document.getElementById(divId).style.color = 'blue';\n"
+	script += "var allHTMLTags = new Array();\n"
+	script += "var lastClass = \"\";\n\n"
+	script += "function peek(theClass) {\n"
+	script += "  var allHTMLTags = document.getElementsByTagName(\"*\");\n\n"
+	script += "  for(i=0; i<allHTMLTags.length;i++) {\n"
+	script += "    if(allHTMLTags[i].className==theClass) {\n"
+	script += "      allHTMLTags[i].style.color=\"blue\";\n"
+	script += "    }\n"
+	script += "    if(allHTMLTags[i].className==lastClass) {\n"
+	script += "      allHTMLTags[i].style.color=\"#000000\";\n"
+	script += "    }\n"
+	script += "  }\n"
+	script += "  lastClass = theClass;\n"
 	script += "}\n"
 	script += "</script>\n"
 	return script
@@ -74,7 +92,7 @@ def orderBss(x, y):
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
 def createIdLink(itemId):
-	return "<span onclick=\"peek(" + str(itemId) + ")\">" + str(itemId) + "</a>\t"
+	return "<span onclick=\"peek('" + str(itemId) + "')\">" + str(itemId) + "</span>\t"
 
 
 #### CLI PROCESSING ####
