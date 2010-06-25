@@ -96,7 +96,7 @@ def orderBss(x, y):
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
 def createIdLink(itemId):
-	return "<span onclick=\"peek('" + str(itemId) + "')\" style=\"cursor:pointer;\">" + str(itemId) + "</span>\t"
+	return "<span onclick=\"peek('" + str(itemId) + "')\" style=\"background-color:#DDD;cursor:pointer;\">" + str(itemId) + "</span>\t"
 
 
 #### CLI PROCESSING ####
