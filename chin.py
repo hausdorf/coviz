@@ -54,7 +54,9 @@ class ByteSpan:
 #  intended use of this function is to generate a span tag whose id
 #  is the same as the bytespan object's coref ID.
 def generateTagOpen(id):
-	return "<span class=\"" + str(id) + "\">"
+	return "<span class=\"" + str(id) + "\" onmouseover=\"printAttributes(" +
+	str(id) + 
+	", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\">"
 
 # Generates a closing for a span tag.
 #  Intended to be close a tag that was openend with generateTagOpen()
@@ -81,6 +83,12 @@ def generateJs():
 	script += "  }\n"
 	script += "  lastClass = theClass;\n"
 	script += "}\n"
+	script += "\n"
+	script += "function printAttributes(id, start, end) {\n"
+	script += "  var elem = document.getElementById(\"attributeDisplay\");\n"
+	script += "  elem.innerHTML = \"CorefID: \" + id + "
+	script += "\"<br>Starting byte: \" + start + \"<br>Ending byte: \" + end;"
+	script += "}\n"
 	script += "</script>\n"
 	return script
 
@@ -96,7 +104,9 @@ def orderBss(x, y):
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
 def createIdLink(itemId):
-	return "<span onclick=\"peek('" + str(itemId) + "')\" style=\"background-color:#DDD;cursor:pointer;\">" + str(itemId) + "</span>\t"
+	return "<span onclick=\"peek('" + str(itemId) +
+	"')\" style=\"background-color:#DDD;cursor:pointer;\">" + str(itemId) +
+	"</span>\t"
 
 
 #### CLI PROCESSING ####
@@ -137,7 +147,8 @@ bss = sorted(bss, cmp=orderBss)
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
 read = open(sys.argv[2], 'rb')
-start = "<html>\n\n<head>" + generateJs() + "</head>\n\n<body>\n"
+start = "<html>\n\n<head>" + generateJs() +
+"</head>\n\n<body>\n<div id=\"attributeDisplay\"></div>"
 write.write(start)
 
 
