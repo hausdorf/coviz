@@ -54,9 +54,9 @@ class ByteSpan:
 #  intended use of this function is to generate a span tag whose id
 #  is the same as the bytespan object's coref ID.
 def generateTagOpen(id):
-	return "<span class=\"" + str(id) + "\" onmouseover=\"printAttributes(" +
-	str(id) + 
-	", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\">"
+	return_val = "<span class=\"" + str(id) + "\" onmouseover=\"printAttributes(" + str(id)
+	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\">"
+	return return_val
 
 # Generates a closing for a span tag.
 #  Intended to be close a tag that was openend with generateTagOpen()
@@ -64,7 +64,7 @@ def generateTagClose():
 	return "</span>"
 
 def generateJs():
-	return "<script type=\"text/javascript\" src=\"includes/scripts.js\"></scripts>"
+	return "<script type=\"text/javascript\" src=\"scripts.js\"></script>"
 
 # The ordering function that helps sort() sort the bss objects. It first
 #  looks at initial position, indicated by bss[anything].getStart(); if
@@ -78,9 +78,10 @@ def orderBss(x, y):
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
 def createIdLink(itemId):
-	return "<span onclick=\"peek('" + str(itemId) +
-	"')\" style=\"background-color:#DDD;cursor:pointer;\">" + str(itemId) +
-	"</span>\t"
+	return_val = "<span onclick=\"peek('" + str(itemId)
+	return_val += "')\" style=\"background-color:#DDD;cursor:pointer;\">" + str(itemId)
+	return_val += "</span>\t"
+	return return_val
 
 
 #### CLI PROCESSING ####
@@ -121,8 +122,8 @@ bss = sorted(bss, cmp=orderBss)
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
 read = open(sys.argv[2], 'rb')
-start = "<html>\n\n<head>" + generateJs() +
-"</head>\n\n<body>\n<div id=\"attributeDisplay\"></div>"
+start = "<html>\n\n<head>" + generateJs()
+start += "</head>\n\n<body>\n<div id=\"attributeDisplay\"></div><div id=\"original\">"
 write.write(start)
 
 
