@@ -20,5 +20,5 @@ function peek(theClass) {
 function printAttributes(id, start, end) {
   var elem = document.getElementById("attributeDisplay");
   elem.innerHTML = "CorefID: " + id + 
-"<br>Starting byte: " + start + "<br>Ending byte: " + end;
+	"<br>Starting byte: " + start + "<br>Ending byte: " + end;
 }
