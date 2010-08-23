@@ -122,7 +122,7 @@ bss = sorted(bss, cmp=orderBss)
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
 read = open(sys.argv[2], 'rb')
-start = "<html>\n\n<head>" + generateJs()
+start = "<html>\n\n<head>" + generateJs() + "<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\">"
 start += "</head>\n\n<body>\n<div id=\"attributeDisplay\"></div><div id=\"original\">"
 write.write(start)
 
