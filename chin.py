@@ -64,33 +64,7 @@ def generateTagClose():
 	return "</span>"
 
 def generateJs():
-	script = "\n<script>\n"
-	script += "var allHTMLTags = new Array();\n"
-	script += "var lastClass = \"\";\n\n"
-	script += "function peek(theClass) {\n"
-	script += "  var allHTMLTags = document.getElementsByTagName(\"*\");\n\n"
-	script += "  for(i=0; i<allHTMLTags.length;i++) {\n"
-	script += "    if(allHTMLTags[i].className==lastClass) {\n"
-	script += "      allHTMLTags[i].style.color=\"inherit\";\n"
-	script += "      allHTMLTags[i].style.fontWeight=\"inherit\";\n"
-	script += "      allHTMLTags[i].style.textDecoration=\"inherit\";\n"
-	script += "    }\n"
-	script += "    if(allHTMLTags[i].className==theClass) {\n"
-	script += "      allHTMLTags[i].style.color=\"blue\";\n"
-	script += "      allHTMLTags[i].style.fontWeight=\"bold\";\n"
-	script += "      allHTMLTags[i].style.textDecoration=\"underline\";\n"
-	script += "    }\n"
-	script += "  }\n"
-	script += "  lastClass = theClass;\n"
-	script += "}\n"
-	script += "\n"
-	script += "function printAttributes(id, start, end) {\n"
-	script += "  var elem = document.getElementById(\"attributeDisplay\");\n"
-	script += "  elem.innerHTML = \"CorefID: \" + id + "
-	script += "\"<br>Starting byte: \" + start + \"<br>Ending byte: \" + end;"
-	script += "}\n"
-	script += "</script>\n"
-	return script
+	return "<script type=\"text/javascript\" src=\"includes/scripts.js\"></scripts>"
 
 # The ordering function that helps sort() sort the bss objects. It first
 #  looks at initial position, indicated by bss[anything].getStart(); if
