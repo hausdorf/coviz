@@ -63,9 +63,10 @@ class ByteSpan:
 # Generates a span tag with an id specified in the formal params. The
 #  intended use of this function is to generate a span tag whose id
 #  is the same as the bytespan object's coref ID.
-def generateTagOpen(id):
+def generateTagOpen(id, levelsNested):
 	return_val = "<span class=\"" + str(id) + "\" onmouseover=\"printAttributes(" + str(id)
-	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\">"
+	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\" "
+	return_val += "style=\"border:solid 1px #000;padding:" + str(levelsNested) + ";\">"
 	return return_val
 
 # Generates a closing for a span tag.
@@ -176,7 +177,7 @@ bytespanStack = list()
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		write.write(generateTagOpen(bss[bytespanIndex].getCorefId())) #2a
+		write.write(generateTagOpen(bss[bytespanIndex].getCorefId(), 0)) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
@@ -204,7 +205,7 @@ write.write("<div id=\"tracking\">")
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		write.write(generateTagOpen(bss[bytespanIndex].getCorefId())) #2a
+		write.write(generateTagOpen(bss[bytespanIndex].getCorefId(), 0)) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
