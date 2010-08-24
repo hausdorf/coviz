@@ -161,6 +161,7 @@ charIndex = 0
 bytespanIndex = 0
 bytespanStack = list()
 
+# Create div#original
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
@@ -178,6 +179,35 @@ while char:
 	else:
 		write.write(char) #4b
 	charIndex+=1
+write.write("</div>")
+
+# Re-initialize the variables
+char = True
+charIndex = 0
+bytespanIndex = 0
+bytespanStack = list()
+read = open(sys.argv[2], 'rb')
+
+# Create div#tracking
+write.write("<div id=\"tracking\">skldfjdslkjds")
+while char:
+	char = read.read(1) #1
+	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
+		write.write(generateTagOpen(bss[bytespanIndex].getCorefId())) #2a
+		bytespanStack.insert(0, bss[bytespanIndex]) #2b
+		bytespanIndex+=1
+
+	while len(bytespanStack) != 0 and bytespanStack[0].getEnd() == charIndex: #3
+		write.write(generateTagClose())
+		bytespanStack.pop(0)
+
+	# 4
+	if char == "\n":
+		write.write("<p>\n") #4a
+	else:
+		write.write(char) #4b
+	charIndex+=1
+write.write("</div>")
 
 sys.exit()
 
