@@ -1,9 +1,13 @@
 div#original {
-	width:47%;
+	width:48%;
+	height:100%;
 	float:left;
+	overflow:scroll;
 }
 
 div#tracking {
-	width:47%;
+	width:48%;
+	height:100%;
 	float:right;
+	overflow:scroll;
 }
