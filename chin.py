@@ -190,7 +190,7 @@ bytespanStack = list()
 read = open(sys.argv[2], 'rb')
 
 # Create div#tracking
-write.write("<div id=\"tracking\">skldfjdslkjds")
+write.write("<div id=\"tracking\">")
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
