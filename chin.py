@@ -24,6 +24,7 @@ class ByteSpan:
 		self.end = end
 		self.corefId = corefId
 		self.count = 0
+		self.levelsNested = 0
 	
 	def incCount():
 		self.count += 1
@@ -39,7 +40,16 @@ class ByteSpan:
 
 	def getCorefId(self):
 		return self.corefId
-	
+
+	def getLevelsNested(self):
+		return self.levelsNested
+
+	def incLevelsNested(self):
+		self.levelsNested += 1
+
+	def decLevelsNested(self):
+		self.levelsNested -= 1
+
 	# For debugging
 	def printargs(self):
 		print self.start, self.end, self.corefId
