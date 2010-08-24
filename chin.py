@@ -123,9 +123,10 @@ bss = sorted(bss, cmp=orderBss)
 write = open(overlayFileTitle, 'w')
 read = open(sys.argv[2], 'rb')
 start = "<html>\n\n<head>" + generateJs() + "<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\">"
-start += "</head>\n\n<body>\n<div id=\"attribute-display\"></div><div id=\"original\">"
+start += "</head>\n\n<body>\n<div id=\"attribute-display\"></div>"
 write.write(start)
 
+write.write("<div id=\"original\">")
 
 #### WRITE ID LINKS ####
 ####                ####
