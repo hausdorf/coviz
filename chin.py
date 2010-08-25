@@ -176,9 +176,9 @@ while bsCount < len(bss):
 				bs.incLevelsNested()
 	
 	for n in range(1, len(openBsObjects)-1):
-		if openBsObjects[len(openBsObjects)] > openBsObjects[n].getEnd():
+		if openBsObjects[len(openBsObjects)-1].getStart() > openBsObjects[n].getEnd():
 			openBsObjects.pop()
-			nestCount+=1
+			nestCount-=1
 
 	bsCount += 1
 
