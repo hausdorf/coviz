@@ -56,6 +56,9 @@ class ByteSpan:
 	# For debugging
 	def printargs(self):
 		print self.start, self.end, self.corefId
+	
+	def printNested(self):
+		print str(self.start) + " " + str(self.levelsNested)
 
 
 #### GLOBAL METHODS ####
