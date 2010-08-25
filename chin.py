@@ -25,7 +25,7 @@ class ByteSpan:
 		self.corefId = corefId
 		self.count = 0
 		self.levelsNested = 0
-	
+
 	def incCount():
 		self.count += 1
 
@@ -151,6 +151,27 @@ corefIdList.sort()
 for id in corefIdList:
 	write.write(createIdLink(id))
 
+#### ADD NESTING DATA ####
+####                  ####
+nestCount = 0
+bsCount = 1
+openBsObjects = list()
+openBsObjects.append(bss[0])
+
+while bsCount < len(bss):
+	openBsObjects.append(bss[bsCount])
+	if openBsObjects[len(openBsObjects)-2].getStart() < openBsObjects[len(openBsObjects)-1].getEnd():
+		nestCount += 1
+		if nestCount > openBsObjects[len(openBsObjects)-1].getLevelsNested():
+			for bs in openBsObjects:
+				bs.incLevelsNested()
+	
+	for n in range(1, len(openBsObjects)-1):
+		if openBsObjects[len(openBsObjects)] > openBsObjects[n].getEnd():
+			openBsObjects.pop()
+			nestCount+=1
+
+	bsCount += 1
 
 #### WRITE THE OVERLAY FILE ####
 ####                        ####
