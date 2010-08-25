@@ -26,6 +26,9 @@ class ByteSpan:
 		self.count = 0
 		self.levelsNested = 0
 
+	def __str__(self):
+		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
+
 	def incCount():
 		self.count += 1
 
@@ -159,6 +162,9 @@ openBsObjects = list()
 openBsObjects.append(bss[0])
 
 while bsCount < len(bss):
+	for bs in openBsObjects:
+		print bs
+
 	openBsObjects.append(bss[bsCount])
 	if openBsObjects[len(openBsObjects)-2].getStart() < openBsObjects[len(openBsObjects)-1].getEnd():
 		nestCount += 1
