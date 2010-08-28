@@ -179,19 +179,19 @@ while bsCount < len(bss):
 
 	n = 0
 	while len(openBsObjects) >= 1 and n < len(openBsObjects):
-		print "n: " + str(n)
-		for bs in openBsObjects:
-			bs.printargs()
+		# print "n: " + str(n)
+		# for bs in openBsObjects:
+		# 	bs.printargs()
 
 		traverse = 0
 		while traverse < len(openBsObjects):
 			if openBsObjects[len(openBsObjects)-1].getStart() > openBsObjects[traverse].getEnd():
-				print "eject: " + str(openBsObjects[traverse])
+				# print "eject: " + str(openBsObjects[traverse])
 				openBsObjects.pop(traverse)
 				nestCount-=1
 			traverse += 1
 		n+=1
-	print "\n"
+	# print "\n"
 
 	bsCount += 1
 
