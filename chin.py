@@ -172,10 +172,6 @@ while bsCount < len(bss):
 			for bs in openBsObjects:
 				bs.incLevelsNested()
 
-	for bs in openBsObjects:
-		bs.printNested()
-	print "\n"
-
 	n = 0
 	while len(openBsObjects) >= 1 and n < len(openBsObjects):
 		# print "Cmp " + str(openBsObjects[len(openBsObjects)-1].getCorefId()) + " " + str(openBsObjects[n].getCorefId())
@@ -226,6 +222,7 @@ while char:
 	else:
 		write.write(char) #4b
 	charIndex+=1
+
 write.write("</div>")
 
 # Re-initialize the variables
