@@ -152,15 +152,15 @@ write.write("<div id=\"original\">")
 
 #### WRITE ID LINKS ####
 ####                ####
-corefIdList = list()
-for item in bss:
-	if corefIdList.count(item.getCorefId()) == 0:
-		corefIdList.append(item.getCorefId())
-
-corefIdList.sort()
-
-for id in corefIdList:
-	write.write(createIdLink(id))
+# corefIdList = list()
+# for item in bss:
+# 	if corefIdList.count(item.getCorefId()) == 0:
+# 		corefIdList.append(item.getCorefId())
+# 
+# corefIdList.sort()
+# 
+# for id in corefIdList:
+# 	write.write(createIdLink(id))
 
 #### ADD NESTING DATA ####
 ####                  ####
