@@ -176,10 +176,14 @@ while bsCount < len(bss):
 		bs.printNested()
 	print "\n"
 
-	for n in range(1, len(openBsObjects)-1):
+	n = 0
+	while len(openBsObjects) >= 1 and n < len(openBsObjects):
+		# print "Cmp " + str(openBsObjects[len(openBsObjects)-1].getCorefId()) + " " + str(openBsObjects[n].getCorefId())
+		# print "bs  " + str(openBsObjects[len(openBsObjects)-1].getStart()) + " " + str(openBsObjects[n].getEnd())
 		if openBsObjects[len(openBsObjects)-1].getStart() > openBsObjects[n].getEnd():
-			openBsObjects.pop()
+			openBsObjects.pop(n)
 			nestCount-=1
+		n+=1
 
 	bsCount += 1
 
