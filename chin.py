@@ -77,7 +77,7 @@ class ByteSpan:
 def generateTagOpen(id, levelsNested):
 	return_val = "<span class=\"" + str(id) + "\" onmouseover=\"printAttributes(" + str(id)
 	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\" "
-	return_val += "style=\"border:solid 1px #000;padding:" + str(levelsNested) + ";\">"
+	return_val += "style=\"border:solid 1px #000;padding:" + str(levelsNested*2) + ";\">"
 	return return_val
 
 # Generates a closing for a span tag.
