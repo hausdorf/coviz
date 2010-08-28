@@ -1,4 +1,5 @@
 #chin.py
+# usage: python chin.py key raw.txt
 import sys
 import os
 
