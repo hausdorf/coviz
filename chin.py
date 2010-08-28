@@ -164,36 +164,36 @@ write.write("<div id=\"original\">")
 
 #### ADD NESTING DATA ####
 ####                  ####
-nestCount = 0
-bsCount = 1
-openBsObjects = list()
-openBsObjects.append(bss[0])
-
-while bsCount < len(bss):
-	openBsObjects.append(bss[bsCount])
-	if openBsObjects[len(openBsObjects)-2].getStart() < openBsObjects[len(openBsObjects)-1].getEnd():
-		nestCount += 1
-		if nestCount > openBsObjects[len(openBsObjects)-1].getLevelsNested():
-			for bs in openBsObjects:
-				bs.incLevelsNested()
-
-	n = 0
-	while len(openBsObjects) >= 1 and n < len(openBsObjects):
-		# print "n: " + str(n)
-		# for bs in openBsObjects:
-		# 	bs.printargs()
-
-		traverse = 0
-		while traverse < len(openBsObjects):
-			if openBsObjects[len(openBsObjects)-1].getStart() > openBsObjects[traverse].getEnd():
-				# print "eject: " + str(openBsObjects[traverse])
-				openBsObjects.pop(traverse)
-				nestCount-=1
-			traverse += 1
-		n+=1
-	# print "\n"
-
-	bsCount += 1
+# nestCount = 0
+# bsCount = 1
+# openBsObjects = list()
+# openBsObjects.append(bss[0])
+# 
+# while bsCount < len(bss):
+# 	openBsObjects.append(bss[bsCount])
+# 	if openBsObjects[len(openBsObjects)-2].getStart() < openBsObjects[len(openBsObjects)-1].getEnd():
+# 		nestCount += 1
+# 		if nestCount > openBsObjects[len(openBsObjects)-1].getLevelsNested():
+# 			for bs in openBsObjects:
+# 				bs.incLevelsNested()
+# 
+# 	n = 0
+# 	while len(openBsObjects) >= 1 and n < len(openBsObjects):
+# 		# print "n: " + str(n)
+# 		# for bs in openBsObjects:
+# 		# 	bs.printargs()
+# 
+# 		traverse = 0
+# 		while traverse < len(openBsObjects):
+# 			if openBsObjects[len(openBsObjects)-1].getStart() > openBsObjects[traverse].getEnd():
+# 				# print "eject: " + str(openBsObjects[traverse])
+# 				openBsObjects.pop(traverse)
+# 				nestCount-=1
+# 			traverse += 1
+# 		n+=1
+# 	# print "\n"
+# 
+# 	bsCount += 1
 
 #### WRITE THE OVERLAY FILE ####
 ####                        ####
@@ -220,7 +220,7 @@ bytespanStack = list()
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		write.write(generateTagOpen(bss[bytespanIndex].getCorefId(), bss[bytespanIndex].getLevelsNested())) #2a
+		write.write(generateTagOpen(bss[bytespanIndex].getCorefId(), 0)) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
@@ -249,7 +249,7 @@ write.write("<div id=\"tracking\">")
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		write.write(generateTagOpen(bss[bytespanIndex].getCorefId(), bss[bytespanIndex].getLevelsNested())) #2a
+		write.write(generateTagOpen(bss[bytespanIndex].getCorefId(), 0)) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
