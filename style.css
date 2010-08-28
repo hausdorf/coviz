@@ -15,3 +15,7 @@ div#tracking {
 	float:right;
 	overflow:scroll;
 }
+
+span {
+	display:inline-block;
+}
