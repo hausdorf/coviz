@@ -3,6 +3,7 @@ div#attribute-display {
 }
 
 div#original {
+	background-color:#EEE;
 	width:48%;
 	height:90%;
 	float:left;
@@ -10,6 +11,7 @@ div#original {
 }
 
 div#tracking {
+	background-color:#EEE;
 	width:50%;
 	height:90%;
 	float:right;
