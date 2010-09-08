@@ -20,10 +20,15 @@ function peek(theClass) {
 		  }
 		}
 		lastClass = theClass;
-	} else {
-		toMarkup.push(theClass);
 	}
+	toMarkup.push(theClass);
 	setTimeout(function(){recentlyModified=false},200);
+}
+
+function cycle() {
+	for(var i=0;i<toMarkup.length;i++) {
+		alert(toMarkup.pop());
+	}
 }
 
 function printAttributes(id, start, end) {
