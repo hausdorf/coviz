@@ -81,6 +81,13 @@ def generateTagOpen(id, levelsNested):
 	return_val += "style=\"border:solid 1px #000;padding:" + str(levelsNested) + ";\">"
 	return return_val
 
+def generateTagOpenTracking(id, levelsNested):
+	return_val = "<span class=\"" + str(id) + "-tracking\" onmouseover=\"printAttributes(" + str(id)
+	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\" "
+	return_val += "onclick=\"peek("+str(id)+");setTimeout(function(){cycle();}, 500);\""
+	return_val += "style=\"border:solid 1px #000;padding:" + str(levelsNested) + ";\">"
+	return return_val
+
 # Generates a closing for a span tag.
 #  Intended to be close a tag that was openend with generateTagOpen()
 def generateTagClose():
@@ -250,7 +257,7 @@ write.write("<div id=\"tracking\">")
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		write.write(generateTagOpen(bss[bytespanIndex].getCorefId(), 0)) #2a
+		write.write(generateTagOpenTracking(bss[bytespanIndex].getCorefId(), 0)) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 

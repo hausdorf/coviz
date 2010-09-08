@@ -26,8 +26,16 @@ function peek(theClass) {
 }
 
 function cycle() {
+	var tmpClass = toMarkup.pop();
 	for(var i=0;i<toMarkup.length;i++) {
-		alert(toMarkup.pop());
+		var allHTMLTags = document.getElementsByTagName("*");
+		for(i=0; i<allHTMLTags.length;i++) {
+		  if(allHTMLTags[i].className==(tmpClass+"-tracking")) {
+		    allHTMLTags[i].style.color="red";
+		    allHTMLTags[i].style.fontWeight="bold";
+		    allHTMLTags[i].style.textDecoration="underline";
+		  }
+		}
 	}
 }
 
