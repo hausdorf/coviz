@@ -1,6 +1,8 @@
 var allHTMLTags = new Array();
 var recentlyModified = false;
 var lastClass = "";
+var toMarkup = new Array();
+
 function peek(theClass) {
 	if(!recentlyModified) {
 		recentlyModified = true;
@@ -18,6 +20,8 @@ function peek(theClass) {
 		  }
 		}
 		lastClass = theClass;
+	} else {
+		toMarkup.push(theClass);
 	}
 	setTimeout(function(){recentlyModified=false},200);
 }
