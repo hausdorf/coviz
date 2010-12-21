@@ -158,51 +158,6 @@ write.write(start)
 
 write.write("<div id=\"original\">")
 
-#### WRITE ID LINKS ####
-####                ####
-# corefIdList = list()
-# for item in bss:
-# 	if corefIdList.count(item.getCorefId()) == 0:
-# 		corefIdList.append(item.getCorefId())
-# 
-# corefIdList.sort()
-# 
-# for id in corefIdList:
-# 	write.write(createIdLink(id))
-
-#### ADD NESTING DATA ####
-####                  ####
-# nestCount = 0
-# bsCount = 1
-# openBsObjects = list()
-# openBsObjects.append(bss[0])
-# 
-# while bsCount < len(bss):
-# 	openBsObjects.append(bss[bsCount])
-# 	if openBsObjects[len(openBsObjects)-2].getStart() < openBsObjects[len(openBsObjects)-1].getEnd():
-# 		nestCount += 1
-# 		if nestCount > openBsObjects[len(openBsObjects)-1].getLevelsNested():
-# 			for bs in openBsObjects:
-# 				bs.incLevelsNested()
-# 
-# 	n = 0
-# 	while len(openBsObjects) >= 1 and n < len(openBsObjects):
-# 		# print "n: " + str(n)
-# 		# for bs in openBsObjects:
-# 		# 	bs.printargs()
-# 
-# 		traverse = 0
-# 		while traverse < len(openBsObjects):
-# 			if openBsObjects[len(openBsObjects)-1].getStart() > openBsObjects[traverse].getEnd():
-# 				# print "eject: " + str(openBsObjects[traverse])
-# 				openBsObjects.pop(traverse)
-# 				nestCount-=1
-# 			traverse += 1
-# 		n+=1
-# 	# print "\n"
-# 
-# 	bsCount += 1
-
 #### WRITE THE OVERLAY FILE ####
 ####                        ####
 # 1. Read one character from raw.txt
