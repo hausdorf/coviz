@@ -46,3 +46,16 @@ function printAttributes(id, start, end) {
 	elem.innerHTML = "CorefID: " + id + 
 		"<br>Starting byte: " + start + "<br>Ending byte: " + end;
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+	allHTMLTags = document.getElementsByTagName("*");
+	for(i=0;i<allHTMLTags.length;i++) {
+		if(allHTMLTags[i].className!=("")) {
+			setTimeout((function (_tag, _class) {
+				return function () {
+					_tag.addEventListener("click", function(event){peek(_class);setTimeout(function(){cycle();}, 500);}, false);
+				}
+			})(allHTMLTags[i], allHTMLTags[i].className), i * 100);
+		}
+	}
+}, false);
