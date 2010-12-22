@@ -24,11 +24,15 @@ class ByteSpan:
 		self.start = start
 		self.end = end
 		self.corefId = corefId
+		self.assocCorefId = None
 		self.count = 0
 		self.levelsNested = 0
 
 	def __str__(self):
 		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
+
+	def secAssocCorefId(id):
+		self.assocCorefId = id
 
 	def incCount():
 		self.count += 1
@@ -146,6 +150,8 @@ for line in range(1, len(lines)):
 # Sort the list. Begin with starting position of bytespan; in the
 #  event of a tie, the largest bytespan comes first.
 bss = sorted(bss, cmp=orderBss)
+
+
 
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
