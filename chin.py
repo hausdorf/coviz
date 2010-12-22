@@ -152,6 +152,28 @@ for line in range(1, len(lines)):
 bss = sorted(bss, cmp=orderBss)
 
 
+# Sort array for gold standard
+# FIND THE BYTESPAN THAT CORRESPONDS TO THE NEW BYTESPAN
+# Link and generate event handlers.
+
+## GOLDSTANDARD PARSING
+# Open gold standard key
+raw2 = open(sys.argv[3], 'r')
+
+# Create a list of all lines in gold standard key
+lines2 = raw2.readlines()
+
+# Create a list to hold the goldstandard ByteSpan objects
+bss2 = list()
+
+# Process each line of the goldstandard's KEY, put in ByteSpan object
+for line2 in range(1, len(lines2)):
+	words2 = lines2[line2].split()
+	byteRange2 = words2[1].split(",")
+	id2 = filter(lambda x: x in '1234567890', words2[5])
+	bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), int(id))
+	bss2.append(bs2)
+
 
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
