@@ -156,7 +156,7 @@ bss = sorted(bss, cmp=orderBss)
 # FIND THE BYTESPAN THAT CORRESPONDS TO THE NEW BYTESPAN
 # Link and generate event handlers.
 
-## GOLDSTANDARD PARSING
+## GOLDSTANDARD KEY PARSING
 # Open gold standard key
 raw2 = open(sys.argv[3], 'r')
 
@@ -173,6 +173,10 @@ for line2 in range(1, len(lines2)):
 	id2 = filter(lambda x: x in '1234567890', words2[5])
 	bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), int(id))
 	bss2.append(bs2)
+
+
+# Add the standard-goldstandard cross-ids
+
 
 
 # Open new html file, begin writing basic template data to it.

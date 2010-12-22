@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			// Hack: in JS, you are not allowed to re-declare variables, so you have to
 			// double-bind it to create a new execution context. Adding this code
 			// lets us automate the adding of event handlers for any arbitrary id/class
-			// tag we choose (in this case, the ids will represent the bytespan #, but
-			// could concievably be anything).
+			// tag we choose, rather than to manually enumerate the adding of event
+			// handlers for all possible tag ids.
 			setTimeout((function (_tag, _class) {
 				return function () {
 					_tag.addEventListener("click", function(event){peek(_class);setTimeout(function(){cycle();}, 500);}, false);
