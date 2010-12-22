@@ -4,6 +4,8 @@ var lastClass = "";
 var toMarkup = new Array();
 var currColor = "333333"
 
+// Highlight all words in a coref chain, and un-highlight
+// the ones from the previous chain.
 function peek(theClass) {
 	if(!recentlyModified) {
 		recentlyModified = true;
@@ -47,10 +49,17 @@ function printAttributes(id, start, end) {
 		"<br>Starting byte: " + start + "<br>Ending byte: " + end;
 }
 
+// Add event handlers for every single NP
 document.addEventListener("DOMContentLoaded", function() {
 	allHTMLTags = document.getElementsByTagName("*");
 	for(i=0;i<allHTMLTags.length;i++) {
+		// TODO TODO TODO: Make this only work if we can parse an int out of it!
 		if(allHTMLTags[i].className!=("")) {
+			// Hack: in JS, you are not allowed to re-declare variables, so you have to
+			// double-bind it to create a new execution context. Adding this code
+			// lets us automate the adding of event handlers for any arbitrary id/class
+			// tag we choose (in this case, the ids will represent the bytespan #, but
+			// could concievably be anything).
 			setTimeout((function (_tag, _class) {
 				return function () {
 					_tag.addEventListener("click", function(event){peek(_class);setTimeout(function(){cycle();}, 500);}, false);
