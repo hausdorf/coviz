@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						setTimeout(function(){cycle();}, 500);
 					}, false);
 				}
-			})(allHTMLTags[i], allHTMLTags[i].className), i * 100);
+			})(allHTMLTags[i], allHTMLTags[i].className), 100);
 		}
 	}
 }, false);
