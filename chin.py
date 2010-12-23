@@ -83,7 +83,8 @@ class ByteSpan:
 #  is the same as the bytespan object's coref ID.
 def generateTagOpen(id, levelsNested):
 	return_val = "<span class=\"" + str(id) + "\" onmouseover=\"printAttributes(" + str(id)
-	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\" "
+	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\", "
+	return_val += "assocCorefId=\"" + str(bss[id].getAssocCorefId()) + "\""
 	return_val += "style=\"border:solid 1px #000;padding:" + str(levelsNested) + ";\">"
 	return return_val
 
