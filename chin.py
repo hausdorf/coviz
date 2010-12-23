@@ -1,6 +1,7 @@
 #chin.py
 # usage: python chin.py key raw.txt
 import sys
+import pdb
 import os
 
 #### GLOBAL CONTROLS ####
@@ -181,31 +182,38 @@ for line2 in range(1, len(lines2)):
 
 bss2 = sorted(bss2, cmp=orderBss)
 
-
 # Add the standard-goldstandard cross-ids
 stdIndx = 0
 gldStdIndx = 0
 while(stdIndx < len(bss) and gldStdIndx < len(bss2)):
-	if(bss2[gldStdIndx].getStart() >= bss[stdIndx].getEnd()):
+	gldStart = bss2[gldStdIndx].getStart()
+	gldEnd = bss2[gldStdIndx].getEnd()
+	stdStart = bss2[stdIndx].getStart()
+	stdEnd = bss2[stdIndx].getEnd()
+	
+	if(stdEnd < gldStart):
+		print("a 1 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		stdIndx += 1
-	elif(bss2[gldStdIndx].getEnd() <= bss[stdIndx].getStart()):
+	elif(gldEnd < stdStart):
+		print("a 2 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		gldStdIndx += 1
-	elif(bss2[gldStdIndx].getStart() <= bss[stdIndx].getStart() and bss2[gldStdIndx].getEnd() >= bss[stdIndx].getEnd()):
+	elif(stdStart <= gldStart and stdEnd >= gldEnd):
 		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		print("3 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
+		print("a 3 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		gldStdIndx += 1
-	elif(bss2[gldStdIndx].getStart() >= bss[stdIndx].getStart() and bss2[gldStdIndx].getEnd() >= bss[stdIndx].getEnd()):
+	elif(gldStart < stdStart and gldEnd < stdEnd):
 		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		print("4 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
+		print("a 4 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		gldStdIndx += 1
-	elif(bss2[gldStdIndx].getStart() <= bss[stdIndx].getStart() and bss2[gldStdIndx].getEnd() <= bss[stdIndx].getEnd()):
+	elif(stdStart < gldStart and stdEnd < gldEnd):
 		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		print("5 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
-		gldStdIndx += 1
-	elif(bss2[gldStdIndx].getStart() >= bss[stdIndx].getStart() and bss2[gldStdIndx].getEnd() <=  bss[stdIndx].getEnd()):
-		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		print("6 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
+		print("a 5 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		stdIndx += 1
+	elif(gldStart < stdStart and gldEnd > stdEnd):
+		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
+		print("a 6 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
+		stdIndx += 1
+	print(str(stdIndx) + " " + str(gldStdIndx))
 
 
 # Open new html file, begin writing basic template data to it.
