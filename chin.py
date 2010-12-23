@@ -31,7 +31,7 @@ class ByteSpan:
 	def __str__(self):
 		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
 
-	def secAssocCorefId(id):
+	def setAssocCorefId(id):
 		self.assocCorefId = id
 
 	def incCount():
