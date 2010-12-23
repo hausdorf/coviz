@@ -34,6 +34,9 @@ class ByteSpan:
 	def setAssocCorefId(self, id):
 		self.assocCorefId = id
 
+	def getAssocCorefId(self):
+		return self.assocCorefId
+
 	def incCount():
 		self.count += 1
 
