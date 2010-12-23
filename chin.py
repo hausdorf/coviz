@@ -31,7 +31,7 @@ class ByteSpan:
 	def __str__(self):
 		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
 
-	def setAssocCorefId(id):
+	def setAssocCorefId(self, id):
 		self.assocCorefId = id
 
 	def incCount():
@@ -174,9 +174,12 @@ for line2 in range(1, len(lines2)):
 	bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), int(id))
 	bss2.append(bs2)
 
-
 # Add the standard-goldstandard cross-ids
-
+gldStdIndx = 0
+for stdIndx in range(0, len(bss2)):
+	while(gldStdIndx < len(bss) and bss2[stdIndx].getStart() <= bss[gldStdIndx].getStart() and bss2[stdIndx].getEnd() >= bss[gldStdIndx].getEnd()):
+		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
+		gldStdIndx += 1
 
 
 # Open new html file, begin writing basic template data to it.
