@@ -170,20 +170,42 @@ lines2 = raw2.readlines()
 # Create a list to hold the goldstandard ByteSpan objects
 bss2 = list()
 
+
 # Process each line of the goldstandard's KEY, put in ByteSpan object
 for line2 in range(1, len(lines2)):
 	words2 = lines2[line2].split()
 	byteRange2 = words2[1].split(",")
 	id2 = filter(lambda x: x in '1234567890', words2[5])
-	bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), int(id))
+	bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), int(id2))
 	bss2.append(bs2)
 
+bss2 = sorted(bss2, cmp=orderBss)
+
+
 # Add the standard-goldstandard cross-ids
+stdIndx = 0
 gldStdIndx = 0
-for stdIndx in range(0, len(bss2)):
-	while(gldStdIndx < len(bss) and bss2[stdIndx].getStart() <= bss[gldStdIndx].getStart() and bss2[stdIndx].getEnd() >= bss[gldStdIndx].getEnd()):
-		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
+while(stdIndx < len(bss) and gldStdIndx < len(bss2)):
+	if(bss2[gldStdIndx].getStart() >= bss[stdIndx].getEnd()):
+		stdIndx += 1
+	elif(bss2[gldStdIndx].getEnd() <= bss[stdIndx].getStart()):
 		gldStdIndx += 1
+	elif(bss2[gldStdIndx].getStart() <= bss[stdIndx].getStart() and bss2[gldStdIndx].getEnd() >= bss[stdIndx].getEnd()):
+		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
+		print("3 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
+		gldStdIndx += 1
+	elif(bss2[gldStdIndx].getStart() >= bss[stdIndx].getStart() and bss2[gldStdIndx].getEnd() >= bss[stdIndx].getEnd()):
+		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
+		print("4 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
+		gldStdIndx += 1
+	elif(bss2[gldStdIndx].getStart() <= bss[stdIndx].getStart() and bss2[gldStdIndx].getEnd() <= bss[stdIndx].getEnd()):
+		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
+		print("5 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
+		gldStdIndx += 1
+	elif(bss2[gldStdIndx].getStart() >= bss[stdIndx].getStart() and bss2[gldStdIndx].getEnd() <=  bss[stdIndx].getEnd()):
+		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
+		print("6 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
+		stdIndx += 1
 
 
 # Open new html file, begin writing basic template data to it.
