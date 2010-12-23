@@ -62,7 +62,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			// handlers for all possible tag ids.
 			setTimeout((function (_tag, _class) {
 				return function () {
-					_tag.addEventListener("click", function(event){peek(_class);setTimeout(function(){cycle();}, 500);}, false);
+					_tag.addEventListener("click", function(event) {
+						peek(_class);
+						setTimeout(function(){cycle();}, 500);
+					}, false);
 				}
 			})(allHTMLTags[i], allHTMLTags[i].className), i * 100);
 		}
