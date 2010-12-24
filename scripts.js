@@ -1,13 +1,7 @@
 var allHTMLTags = new Array();
-var recentlyModified = false;
-var otherRecentlyModified = false;
-var lastClass = "";
 var leftModified = new function() { this.condition = false; }
 var rightModified = new function() { this.condition = false; }
 var lastClassUpdated = "";
-var lastOtherClass = "";
-var toMarkup = new Array();
-var currColor = "333333"
 
 function clickNpLeftDoc(classToShow) {
 	highlightChain(classToShow, "left");
@@ -51,66 +45,6 @@ function highlightChain(classToShow, leftOrRight) {
 		lastClassUpdated = classToShow;
 	}
 	setTimeout(function(){lockingBool.condition=false},200);
-}
-
-// Highlight all words in a coref chain, and un-highlight
-// the ones from the previous chain.
-function peek(theClass) {
-	if(!recentlyModified) {
-		recentlyModified = true;
-		var allHTMLTags = document.getElementsByTagName("*");
-		for(i=0; i<allHTMLTags.length;i++) {
-		  if(allHTMLTags[i].className==lastClass) {
-		    allHTMLTags[i].style.color="inherit";
-		    allHTMLTags[i].style.fontWeight="inherit";
-		    allHTMLTags[i].style.textDecoration="inherit";
-		  }
-		  if(allHTMLTags[i].className==theClass) {
-		    allHTMLTags[i].style.color="blue";
-		    allHTMLTags[i].style.fontWeight="bold";
-		    allHTMLTags[i].style.textDecoration="underline";
-		  }
-		}
-		lastClass = theClass;
-	}
-	toMarkup.push(theClass);
-	setTimeout(function(){recentlyModified=false},200);
-}
-
-function peekOther(theClass) {
-	if(!otherRecentlyModified) {
-		otherRecentlyModified = true;
-		var allHTMLTags = document.getElementsByTagName("*");
-		for(i=0; i<allHTMLTags.length;i++) {
-			if(allHTMLTags[i].className==lastOtherClass+"-tracking") {
-				allHTMLTags[i].style.color="inherit";
-				allHTMLTags[i].style.fontWeight="inherit";
-				allHTMLTags[i].style.textDecoration="inherit";
-			}
-			if(allHTMLTags[i].className==(theClass+"-tracking")) {
-				allHTMLTags[i].style.color="blue";
-				allHTMLTags[i].style.fontWeight="bold";
-				allHTMLTags[i].style.textDecoration="underline";
-			}
-		}
-		lastOtherClass = theClass;
-	}
-	setTimeout(function(){otherRecentlyModified=false},200);
-}
-
-function cycle() {
-	for(var i=0;i<toMarkup.length;i++) {
-		var tmpClass = toMarkup.pop();
-		var allHTMLTags = document.getElementsByTagName("*");
-		for(i=0; i<allHTMLTags.length;i++) {
-		  if(allHTMLTags[i].className==(tmpClass+"-tracking")) {
-		    allHTMLTags[i].style.color=currColor;
-		    allHTMLTags[i].style.fontWeight="bold";
-		    allHTMLTags[i].style.textDecoration="underline";
-		  }
-		}
-	}
-	currColor = (parseInt(currColor, 16) + 30000).toString(16);
 }
 
 function printAttributes(id, start, end) {
