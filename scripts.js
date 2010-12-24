@@ -60,14 +60,15 @@ document.addEventListener("DOMContentLoaded", function() {
 			// lets us automate the adding of event handlers for any arbitrary id/class
 			// tag we choose, rather than to manually enumerate the adding of event
 			// handlers for all possible tag ids.
-			setTimeout((function (_tag, _class) {
+			setTimeout((function (_tag, _class, _assocAttr) {
 				return function () {
 					_tag.addEventListener("click", function(event) {
 						peek(_class);
-						setTimeout(function(){cycle();}, 500);
+						// TODO HIGHLIGHT THE tracking branch	
+						// peekGold(_assocAttr.nodeValue)
 					}, false);
 				}
-			})(allHTMLTags[i], allHTMLTags[i].className), 100);
+			})(allHTMLTags[i], allHTMLTags[i].className, allHTMLTags[i].attributes[3]), 100);
 		}
 	}
 }, false);
