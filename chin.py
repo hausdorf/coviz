@@ -26,8 +26,6 @@ class ByteSpan:
 		self.end = end
 		self.corefId = corefId
 		self.assocCorefId = None
-		self.count = 0
-		self.levelsNested = 0
 
 	def __str__(self):
 		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
@@ -38,12 +36,6 @@ class ByteSpan:
 	def getAssocCorefId(self):
 		return self.assocCorefId
 
-	def incCount():
-		self.count += 1
-
-	def getCount():
-		return self.count
-
 	def getStart(self):
 		return self.start
 
@@ -53,25 +45,13 @@ class ByteSpan:
 	def getCorefId(self):
 		return self.corefId
 
-	def getLevelsNested(self):
-		return self.levelsNested
-
-	def incLevelsNested(self):
-		self.levelsNested += 1
-
-	def decLevelsNested(self):
-		self.levelsNested -= 1
-
 	# For debugging
 
 	def __str__(self):
 		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
 
 	def printargs(self):
-		print self.start, self.end, self.corefId, self.levelsNested
-	
-	def printNested(self):
-		print str(self.start) + " " + str(self.levelsNested)
+		print self.start, self.end, self.corefId
 
 
 #### GLOBAL METHODS ####
@@ -82,17 +62,17 @@ class ByteSpan:
 # Generates a span tag with an id specified in the formal params. The
 #  intended use of this function is to generate a span tag whose id
 #  is the same as the bytespan object's coref ID.
-def generateTagOpen(id, levelsNested):
+def generateTagOpen(id):
 	return_val = "<span class=\"" + str(id) + "\" onmouseover=\"printAttributes(" + str(id)
 	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\", "
 	return_val += "assocCorefId=\"" + str(bss[id].getAssocCorefId()) + "\""
-	return_val += "style=\"border:solid 1px #000;padding:" + str(levelsNested) + ";\">"
+	return_val += "style=\"border:solid 1px #000;padding: 0;\">"
 	return return_val
 
-def generateTagOpenTracking(id, levelsNested):
+def generateTagOpenTracking(id):
 	return_val = "<span class=\"" + str(id) + "-tracking\" onmouseover=\"printAttributes(" + str(id)
 	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\" "
-	return_val += "style=\"border:solid 1px #000;padding:" + str(levelsNested) + ";\">"
+	return_val += "style=\"border:solid 1px #000;padding: 0;\">"
 	return return_val
 
 # Generates a closing for a span tag.
@@ -250,7 +230,7 @@ bytespanStack = list()
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		write.write(generateTagOpen(bss[bytespanIndex].getCorefId(), 0)) #2a
+		write.write(generateTagOpen(bss[bytespanIndex].getCorefId())) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
@@ -279,7 +259,7 @@ write.write("<div id=\"tracking\">")
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		write.write(generateTagOpenTracking(bss[bytespanIndex].getCorefId(), 0)) #2a
+		write.write(generateTagOpenTracking(bss[bytespanIndex].getCorefId())) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
