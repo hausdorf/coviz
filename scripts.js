@@ -1,4 +1,3 @@
-var allHTMLTags = new Array();
 var leftModified = new function() { this.condition = false; }
 var rightModified = new function() { this.condition = false; }
 var leftClassUpdated = new function() { this.value = ""; };
@@ -60,10 +59,10 @@ function printAttributes(id, start, end) {
 
 // Add event handlers for every single NP
 document.addEventListener("DOMContentLoaded", function() {
-	allHTMLTags = document.getElementsByTagName("*");
-	for(i=0;i<allHTMLTags.length;i++) {
+	var allHtmlTags = document.getElementsByTagName("*");
+	for(i=0;i<allHtmlTags.length;i++) {
 		// TODO TODO TODO: Make this only work if we can parse an int out of it!
-		if(allHTMLTags[i].className!=("")) {
+		if(allHtmlTags[i].className!=("")) {
 			// Hack: in JS, you are not allowed to re-declare variables, so you have to
 			// double-bind it to create a new execution context. Adding this code
 			// lets us automate the adding of event handlers for any arbitrary id/class
@@ -76,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
 						clickNpRightDoc(_assocAttr.nodeValue);
 					}, false);
 				}
-			})(allHTMLTags[i], allHTMLTags[i].className, allHTMLTags[i].attributes[3]), 100);
+			})(allHtmlTags[i], allHtmlTags[i].className, allHtmlTags[i].attributes[3]), 100);
 		}
 	}
 }, false);
