@@ -1,7 +1,7 @@
 var leftModified = new function() { this.condition = false; }
 var rightModified = new function() { this.condition = false; }
-var leftClassUpdated = new function() { this.value = ""; };
-var rightClassUpdated = new function() { this.value = ""; };
+var lastLeftClassUpdated = new function() { this.value = ""; };
+var lastRightClassUpdated = new function() { this.value = ""; };
 
 function clickNpLeftDoc(classToShow) {
 	highlightChain(classToShow, "left");
@@ -19,12 +19,12 @@ function highlightChain(classToShow, leftOrRight) {
 
 	if(leftOrRight == "left") {
 		lockingBool = leftModified;
-		lastClassUpdated = leftClassUpdated;
+		lastClassUpdated = lastLeftClassUpdated;
 		textToAddToClass = "";
 	}
 	else if (leftOrRight == "right") {
 		lockingBool = rightModified;
-		lastClassUpdated = rightClassUpdated;
+		lastClassUpdated = lastRightClassUpdated;
 		textToAddToClass = "-tracking";
 	}
 	else {
