@@ -1,6 +1,8 @@
 var allHTMLTags = new Array();
 var recentlyModified = false;
+var otherRecentlyModified = false;
 var lastClass = "";
+var lastOtherClass = "";
 var toMarkup = new Array();
 var currColor = "333333"
 
@@ -26,6 +28,27 @@ function peek(theClass) {
 	}
 	toMarkup.push(theClass);
 	setTimeout(function(){recentlyModified=false},200);
+}
+
+function peekOther(theClass) {
+	if(!otherRecentlyModified) {
+		otherRecentlyModified = true;
+		var allHTMLTags = document.getElementsByTagName("*");
+		for(i=0; i<allHTMLTags.length;i++) {
+			if(allHTMLTags[i].className==lastOtherClass+"-tracking") {
+				allHTMLTags[i].style.color="inherit";
+				allHTMLTags[i].style.fontWeight="inherit";
+				allHTMLTags[i].style.textDecoration="inherit";
+			}
+			if(allHTMLTags[i].className==(theClass+"-tracking")) {
+				allHTMLTags[i].style.color="blue";
+				allHTMLTags[i].style.fontWeight="bold";
+				allHTMLTags[i].style.textDecoration="underline";
+			}
+		}
+		lastOtherClass = theClass;
+	}
+	setTimeout(function(){otherRecentlyModified=false},200);
 }
 
 function cycle() {
@@ -64,8 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				return function () {
 					_tag.addEventListener("click", function(event) {
 						peek(_class);
-						// TODO HIGHLIGHT THE tracking branch	
-						// peekGold(_assocAttr.nodeValue)
+						peekOther(_assocAttr.nodeValue)
 					}, false);
 				}
 			})(allHTMLTags[i], allHTMLTags[i].className, allHTMLTags[i].attributes[3]), 100);
