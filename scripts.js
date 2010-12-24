@@ -1,7 +1,8 @@
 var allHTMLTags = new Array();
 var leftModified = new function() { this.condition = false; }
 var rightModified = new function() { this.condition = false; }
-var lastClassUpdated = "";
+var leftClassUpdated = new function() { this.value = ""; };
+var rightClassUpdated = new function() { this.value = ""; };
 
 function clickNpLeftDoc(classToShow) {
 	highlightChain(classToShow, "left");
@@ -12,15 +13,19 @@ function clickNpRightDoc(classToShow) {
 }
 
 function highlightChain(classToShow, leftOrRight) {
+	var lockingBool;
+	var lastClassUpdated;
 	var textToAddToClass = "";
 	var allHtmlTags = document.getElementsByTagName("*");
 
 	if(leftOrRight == "left") {
 		lockingBool = leftModified;
+		lastClassUpdated = leftClassUpdated;
 		textToAddToClass = "";
 	}
 	else if (leftOrRight == "right") {
 		lockingBool = rightModified;
+		lastClassUpdated = rightClassUpdated;
 		textToAddToClass = "-tracking";
 	}
 	else {
@@ -31,7 +36,7 @@ function highlightChain(classToShow, leftOrRight) {
 	if(!lockingBool.condition) {
 		lockingBool.condition = true;
 		for(i=0; i<allHtmlTags.length; i++) {
-			if(allHtmlTags[i].className==lastClassUpdated + textToAddToClass) {
+			if(allHtmlTags[i].className==lastClassUpdated.value + textToAddToClass) {
 				allHtmlTags[i].style.color="inherit";
 				allHtmlTags[i].style.fontWeight="inherit";
 				allHtmlTags[i].style.textDecoration="inherit";
@@ -42,7 +47,7 @@ function highlightChain(classToShow, leftOrRight) {
 				allHtmlTags[i].style.textDecoration="underline";
 			}
 		}
-		lastClassUpdated = classToShow;
+		lastClassUpdated.value = classToShow;
 	}
 	setTimeout(function(){lockingBool.condition=false},200);
 }
