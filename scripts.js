@@ -2,9 +2,56 @@ var allHTMLTags = new Array();
 var recentlyModified = false;
 var otherRecentlyModified = false;
 var lastClass = "";
+var leftModified = new function() { this.condition = false; }
+var rightModified = new function() { this.condition = false; }
+var lastClassUpdated = "";
 var lastOtherClass = "";
 var toMarkup = new Array();
 var currColor = "333333"
+
+function clickNpLeftDoc(classToShow) {
+	highlightChain(classToShow, "left");
+}
+
+function clickNpRightDoc(classToShow) {
+	highlightChain(classToShow, "right");
+}
+
+function highlightChain(classToShow, leftOrRight) {
+	var textToAddToClass = "";
+	var allHtmlTags = document.getElementsByTagName("*");
+
+	if(leftOrRight == "left") {
+		lockingBool = leftModified;
+		textToAddToClass = "";
+	}
+	else if (leftOrRight == "right") {
+		lockingBool = rightModified;
+		textToAddToClass = "-tracking";
+	}
+	else {
+		throw "highlight chain leftOrRight param does not accept " + leftOrRight +
+		" as valid input";
+	}
+
+	if(!lockingBool.condition) {
+		lockingBool.condition = true;
+		for(i=0; i<allHtmlTags.length; i++) {
+			if(allHtmlTags[i].className==lastClassUpdated + textToAddToClass) {
+				allHtmlTags[i].style.color="inherit";
+				allHtmlTags[i].style.fontWeight="inherit";
+				allHtmlTags[i].style.textDecoration="inherit";
+			}
+			if(allHtmlTags[i].className==classToShow + textToAddToClass) {
+				allHtmlTags[i].style.color="blue";
+				allHtmlTags[i].style.fontWeight="bold";
+				allHtmlTags[i].style.textDecoration="underline";
+			}
+		}
+		lastClassUpdated = classToShow;
+	}
+	setTimeout(function(){lockingBool.condition=false},200);
+}
 
 // Highlight all words in a coref chain, and un-highlight
 // the ones from the previous chain.
@@ -86,8 +133,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			setTimeout((function (_tag, _class, _assocAttr) {
 				return function () {
 					_tag.addEventListener("click", function(event) {
-						peek(_class);
-						peekOther(_assocAttr.nodeValue)
+						clickNpLeftDoc(_class);
+						clickNpRightDoc(_assocAttr.nodeValue);
 					}, false);
 				}
 			})(allHTMLTags[i], allHTMLTags[i].className, allHTMLTags[i].attributes[3]), 100);
