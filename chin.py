@@ -30,10 +30,10 @@ class ByteSpan:
 	def __str__(self):
 		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
 
-	def setAssocCorefId(self, id):
+	def addAssocCorefId(self, id):
 		self.assocCorefId.append(id)
 
-	def getAssocCorefId(self):
+	def getAssocCorefIds(self):
 		return self.assocCorefId
 
 	def getStart(self):
@@ -170,21 +170,33 @@ overlapping = list()
 # Set up base case
 overlapping.append(0)
 
+pdb.set_trace()
 while(stdIndx < len(bss) and gldIndx < len(bss2)):
-	gldStart = bss2[gldIndx].getStart()
-	gldEnd = bss2[gldIndx].getEnd()
-	stdStart = bss2[stdIndx].getStart()
-	stdEnd = bss2[stdIndx].getEnd()
-	
+	# Noramalize the gldIndx
+	while(bss2[gldIndx].getEnd() < bss[stdIndx].getStart() ):
+		gldIndx += 1
+
 	# Look backwards
 	tmpIndex = len(overlapping)-1
 	while(tmpIndex >= 0):
-		if(bss2[tmpIndex].getEnd() < stdStart):
+		if(bss2[tmpIndex].getEnd() < bss[stdIndx].getStart()):
+			overlapping.pop[tmpIndex]
+		elif(bss2[tmpIndex].getStart() > bss[stdIndx].getEnd()):
 			overlapping.pop[tmpIndex]
 		else:
-			bss[stdIndx].setAssocCorefId(bss2[tmpIndex].getCorefId())
+			bss[stdIndx].addAssocCorefId(bss2[tmpIndex].getCorefId())
 		tmpIndex -= 1
+
+	pdb.set_trace()
+
 	# Look forwards
+	tmpIndex = gldIndx+1
+	while(tmpIndex < len(bss2) and bss2[tmpIndex].getStart() < bss[stdIndx].getEnd() \
+	and bss2[tmpIndex].getEnd() > bss[stdIndx].getStart()):
+		bss[stdIndx].addAssocCorefId(bss2[tmpIndex].getCorefId())
+		tmpIndex += 1
+
+	stdIndx += 1
 
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
