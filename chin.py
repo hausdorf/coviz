@@ -171,23 +171,7 @@ while(stdIndx < len(bss) and gldIndx < len(bss2)):
 	gldEnd = bss2[gldIndx].getEnd()
 	stdStart = bss2[stdIndx].getStart()
 	stdEnd = bss2[stdIndx].getEnd()
-	
-	if(stdEnd < gldStart):
-		stdIndx += 1
-	elif(gldEnd < stdStart):
-		gldStdIndx += 1
-	elif(stdStart <= gldStart and stdEnd >= gldEnd):
-		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		gldStdIndx += 1
-	elif(gldStart < stdStart and gldEnd < stdEnd):
-		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		gldStdIndx += 1
-	elif(stdStart < gldStart and stdEnd < gldEnd):
-		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		stdIndx += 1
-	elif(gldStart < stdStart and gldEnd > stdEnd):
-		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		stdIndx += 1
+		
 
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
