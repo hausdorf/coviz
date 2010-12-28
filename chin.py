@@ -164,10 +164,11 @@ bss2 = sorted(bss2, cmp=orderBss)
 
 # Add the standard-goldstandard cross-ids
 stdIndx = 0
-gldStdIndx = 0
-while(stdIndx < len(bss) and gldStdIndx < len(bss2)):
-	gldStart = bss2[gldStdIndx].getStart()
-	gldEnd = bss2[gldStdIndx].getEnd()
+gldIndx = 0
+lastLargest = list()
+while(stdIndx < len(bss) and gldIndx < len(bss2)):
+	gldStart = bss2[gldIndx].getStart()
+	gldEnd = bss2[gldIndx].getEnd()
 	stdStart = bss2[stdIndx].getStart()
 	stdEnd = bss2[stdIndx].getEnd()
 	
