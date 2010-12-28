@@ -165,13 +165,26 @@ bss2 = sorted(bss2, cmp=orderBss)
 # Add the standard-goldstandard cross-ids
 stdIndx = 0
 gldIndx = 0
-lastLargest = list()
+overlapping = list()
+
+# Set up base case
+overlapping.append(0)
+
 while(stdIndx < len(bss) and gldIndx < len(bss2)):
 	gldStart = bss2[gldIndx].getStart()
 	gldEnd = bss2[gldIndx].getEnd()
 	stdStart = bss2[stdIndx].getStart()
 	stdEnd = bss2[stdIndx].getEnd()
-		
+	
+	# Look backwards
+	tmpIndex = len(overlapping)-1
+	while(tmpIndex >= 0):
+		if(bss2[tmpIndex].getEnd() < stdStart):
+			overlapping.pop[tmpIndex]
+		else:
+			bss[stdIndx].setAssocCorefId(bss2[tmpIndex].getCorefId())
+		tmpIndex -= 1
+	# Look forwards
 
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
