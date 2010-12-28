@@ -25,13 +25,13 @@ class ByteSpan:
 		self.start = start
 		self.end = end
 		self.corefId = corefId
-		self.assocCorefId = None
+		self.assocCorefId = list()
 
 	def __str__(self):
 		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
 
 	def setAssocCorefId(self, id):
-		self.assocCorefId = id
+		self.assocCorefId.append(id)
 
 	def getAssocCorefId(self):
 		return self.assocCorefId
