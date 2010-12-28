@@ -172,29 +172,21 @@ while(stdIndx < len(bss) and gldStdIndx < len(bss2)):
 	stdEnd = bss2[stdIndx].getEnd()
 	
 	if(stdEnd < gldStart):
-		print("a 1 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		stdIndx += 1
 	elif(gldEnd < stdStart):
-		print("a 2 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		gldStdIndx += 1
 	elif(stdStart <= gldStart and stdEnd >= gldEnd):
 		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		print("a 3 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		gldStdIndx += 1
 	elif(gldStart < stdStart and gldEnd < stdEnd):
 		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		print("a 4 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		gldStdIndx += 1
 	elif(stdStart < gldStart and stdEnd < gldEnd):
 		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		print("a 5 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		stdIndx += 1
 	elif(gldStart < stdStart and gldEnd > stdEnd):
 		bss[stdIndx].setAssocCorefId(bss2[gldStdIndx].getCorefId())
-		print("a 6 " + str(gldStdIndx) + " " + str(bss2[gldStdIndx].getCorefId())) # debugging
 		stdIndx += 1
-	print(str(stdIndx) + " " + str(gldStdIndx))
-
 
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
