@@ -34,7 +34,8 @@ class ByteSpan:
 		self.assocCorefId.append(id)
 
 	def getAssocCorefIds(self):
-		return self.assocCorefId
+		for id in self.assocCorefId:
+			yield id
 
 	def getStart(self):
 		return self.start
@@ -63,9 +64,14 @@ class ByteSpan:
 #  intended use of this function is to generate a span tag whose id
 #  is the same as the bytespan object's coref ID.
 def generateTagOpen(id):
+	ids = ""
+	for id in bss[id].getAssocCorefIds():
+		ids = ids + str(id) + ","
+	ids = ids[:len(ids)-1]
+
 	return_val = "<span class=\"" + str(id) + "\" onmouseover=\"printAttributes(" + str(id)
 	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\", "
-	return_val += "assocCorefId=\"" + str(bss[id].getAssocCorefId()) + "\""
+	return_val += "assocCorefId=\"" + ids + "\""
 	return_val += "style=\"border:solid 1px #000;padding: 0;\">"
 	return return_val
 
@@ -170,7 +176,6 @@ overlapping = list()
 # Set up base case
 overlapping.append(0)
 
-pdb.set_trace()
 while(stdIndx < len(bss) and gldIndx < len(bss2)):
 	# Noramalize the gldIndx
 	while(bss2[gldIndx].getEnd() < bss[stdIndx].getStart() ):
@@ -179,15 +184,12 @@ while(stdIndx < len(bss) and gldIndx < len(bss2)):
 	# Look backwards
 	tmpIndex = len(overlapping)-1
 	while(tmpIndex >= 0):
-		if(bss2[tmpIndex].getEnd() < bss[stdIndx].getStart()):
-			overlapping.pop[tmpIndex]
-		elif(bss2[tmpIndex].getStart() > bss[stdIndx].getEnd()):
-			overlapping.pop[tmpIndex]
+		if(bss2[tmpIndex].getEnd() < bss[stdIndx].getStart() \
+		or bss2[tmpIndex].getStart() > bss[stdIndx].getEnd()):
+			overlapping.pop(tmpIndex)
 		else:
 			bss[stdIndx].addAssocCorefId(bss2[tmpIndex].getCorefId())
 		tmpIndex -= 1
-
-	pdb.set_trace()
 
 	# Look forwards
 	tmpIndex = gldIndx+1
