@@ -37,6 +37,12 @@ class ByteSpan:
 		for id in self.assocCorefId:
 			yield id
 
+	def printAssocCorefIds(self):
+		allIds = ""
+		for ids in self.getAssocCorefIds():
+			allIds = allIds + str(ids) + " "
+		print(allIds)
+
 	def getStart(self):
 		return self.start
 
