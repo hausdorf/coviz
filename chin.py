@@ -199,9 +199,9 @@ while(stdIndx < len(bss) and gldIndx < len(bss2)):
 
 	# Look forwards
 	tmpIndex = gldIndx+1
-	while(tmpIndex < len(bss2) and bss2[tmpIndex].getStart() < bss[stdIndx].getEnd() \
-	and bss2[tmpIndex].getEnd() > bss[stdIndx].getStart()):
-		bss[stdIndx].addAssocCorefId(bss2[tmpIndex].getCorefId())
+	while(tmpIndex < len(bss2) and bss2[tmpIndex].getStart() < bss[stdIndx].getEnd()):
+		if(bss2[tmpIndex].getEnd() > bss[stdIndx].getStart()):
+			bss[stdIndx].addAssocCorefId(bss2[tmpIndex].getCorefId())
 		tmpIndex += 1
 
 	stdIndx += 1
@@ -240,7 +240,9 @@ bytespanStack = list()
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		write.write(generateTagOpen(bss[bytespanIndex].getCorefId())) #2a
+		if(bytespanIndex == 1):
+			pdb.set_trace()
+		write.write(generateTagOpen(bytespanIndex)) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
