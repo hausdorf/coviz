@@ -177,7 +177,7 @@ bss2 = sorted(bss2, cmp=orderBss)
 
 # Add the standard-goldstandard cross-ids
 stdIndx = 0
-gldIndx = 0
+gldIndx = 1
 overlapping = list()
 
 # Set up base case
@@ -199,7 +199,7 @@ while(stdIndx < len(bss) and gldIndx < len(bss2)):
 		tmpIndex -= 1
 
 	# Look forwards
-	tmpIndex = gldIndx+1
+	tmpIndex = gldIndx
 	while(tmpIndex < len(bss2) and bss2[tmpIndex].getStart() < bss[stdIndx].getEnd()):
 		if(bss2[tmpIndex].getEnd() > bss[stdIndx].getStart()):
 			bss[stdIndx].addAssocCorefId(bss2[tmpIndex].getCorefId())
