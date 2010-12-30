@@ -75,14 +75,16 @@ def generateTagOpen(id):
 		ids = ids + str(assocId) + ","
 	ids = ids[:len(ids)-1]
 
-	return_val = "<span class=\"" + str(id) + "\" onmouseover=\"printAttributes(" + str(id)
+	return_val = "<span class=\"" + str(bss[id].getCorefId())
+	return_val += "\" onmouseover=\"printAttributes(" + str(id)
 	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\", "
 	return_val += "assocCorefId=\"" + ids + "\" "
 	return_val += "style=\"border: solid 1px #000;padding: 0;\">"
 	return return_val
 
 def generateTagOpenTracking(id):
-	return_val = "<span class=\"" + str(id) + "-tracking\" onmouseover=\"printAttributes(" + str(id)
+	return_val = "<span class=\"" + str(bss[id].getCorefId())
+	return_val += "-tracking\" onmouseover=\"printAttributes(" + str(id)
 	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\" "
 	return_val += "style=\"border:solid 1px #000;padding: 0;\">"
 	return return_val
@@ -147,7 +149,6 @@ for line in range(1, len(lines)):
 # Sort the list. Begin with starting position of bytespan; in the
 #  event of a tie, the largest bytespan comes first.
 bss = sorted(bss, cmp=orderBss)
-
 
 # Sort array for gold standard
 # FIND THE BYTESPAN THAT CORRESPONDS TO THE NEW BYTESPAN
@@ -240,8 +241,6 @@ bytespanStack = list()
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		if(bytespanIndex == 1):
-			pdb.set_trace()
 		write.write(generateTagOpen(bytespanIndex)) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
