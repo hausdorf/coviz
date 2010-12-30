@@ -2,9 +2,11 @@ var leftModified = new function() { this.condition = false; }
 var rightModified = new function() { this.condition = false; }
 var lastLeftClassUpdated = new function() { this.value = ""; };
 var lastRightClassUpdated = new function() { this.value = ""; };
+var currColor = "333333";
 
-function clickNpLeftDoc(classToShow) {
+function clickNpLeftDoc(classToShow, assocNps) {
 	highlightChain(classToShow, "left");
+	cycle(assocNps);
 }
 
 function clickNpRightDoc(classToShow) {
@@ -51,6 +53,21 @@ function highlightChain(classToShow, leftOrRight) {
 	setTimeout(function(){lockingBool.condition=false},200);
 }
 
+function cycle(assocNps) {
+	for(var i = 0; i < assocNps.length; i++) {
+		var tmpClass = assocNps[i];
+		var allHTMLTags = document.getElementsByTagName("*");
+		for(var n = 0; n < allHTMLTags.length; n++) {
+			if(allHTMLTags[n].className==(tmpClass+"-tracking")) {
+				allHTMLTags[n].style.color=currColor;
+				allHTMLTags[n].style.fontWeight="bold";
+				allHTMLTags[n].style.textDecoration="underline";
+			}
+		}
+		currColor = (parseInt(currColor, 16) + 30000).toString(16);
+	}
+}
+
 function printAttributes(id, start, end) {
 	var elem = document.getElementById("attribute-display");
 	elem.innerHTML = "CorefID: " + id + 
@@ -71,11 +88,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			setTimeout((function (_tag, _class, _assocAttr) {
 				return function () {
 					_tag.addEventListener("click", function(event) {
-						clickNpLeftDoc(_class);
-						clickNpRightDoc(_assocAttr.nodeValue);
+						clickNpLeftDoc(_class, _assocAttr.nodeValue);
 					}, false);
 				}
-			})(allHtmlTags[i], allHtmlTags[i].className, allHtmlTags[i].attributes[3]), 100);
+			})(allHtmlTags[i], allHtmlTags[i].className, allHtmlTags[i].attributes[2]), 100);
 		}
 	}
 }, false);
