@@ -9,13 +9,19 @@ function clickNpLeftDoc(classToShow, assocNps) {
 	if(!lockingBool.condition) {
 		lockingBool.condition = true;
 		highlightChain(classToShow, "left");
-		cycle(assocNps);
+		cycle(assocNps, "left");
 	}
 	setTimeout(function(){lockingBool.condition=false},200);
 }
 
-function clickNpRightDoc(classToShow) {
-	highlightChain(classToShow, "right");
+function clickNpRightDoc(classToShow, assocNps) {
+	var lockingBool = rightModified;
+	if(!lockingBool.condition) {
+		lockingBool.condition = true;
+		highlightChain(classToShow, "right");
+		cycle(assocNps, "right");
+	}
+	setTimeout(function(){lockingBool.condition=false},200);
 }
 
 function highlightChain(classToShow, leftOrRight) {
@@ -53,12 +59,25 @@ function highlightChain(classToShow, leftOrRight) {
 	lastClassUpdated.value = classToShow;
 }
 
-function cycle(assocNps) {
+function cycle(assocNps, leftOrRight) {
+	var textToAddToClass = "";
+
+	if(leftOrRight == "left") {
+		textToAddToClass = "-tracking";
+	}
+	else if (leftOrRight == "right") {
+		textToAddToClass = "";
+	}
+	else {
+		throw "cycle's leftOrRight param does not accept " + leftOrRight +
+		" as valid input";
+	}
+
 	for(var i = 0; i < assocNps.length; i++) {
 		var tmpClass = assocNps[i];
 		var allHTMLTags = document.getElementsByTagName("*");
 		for(var n = 0; n < allHTMLTags.length; n++) {
-			if(allHTMLTags[n].className==(tmpClass+"-tracking")) {
+			if(allHTMLTags[n].className==(parseInt(tmpClass).toString() + textToAddToClass)) {
 				allHTMLTags[n].style.color=currColor;
 				allHTMLTags[n].style.fontWeight="bold";
 				allHTMLTags[n].style.textDecoration="underline";
@@ -79,7 +98,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	var allHtmlTags = document.getElementsByTagName("*");
 	for(i=0;i<allHtmlTags.length;i++) {
 		// TODO TODO TODO: Make this only work if we can parse an int out of it!
-		if(allHtmlTags[i].className!=("")) {
+		var className = allHtmlTags[i].className;
+		if(className.slice(className.length-9, className.length) != "-tracking") {
 			// Hack: in JS, you are not allowed to re-declare variables, so you have to
 			// double-bind it to create a new execution context. Adding this code
 			// lets us automate the adding of event handlers for any arbitrary id/class
@@ -89,6 +109,15 @@ document.addEventListener("DOMContentLoaded", function() {
 				return function () {
 					_tag.addEventListener("click", function(event) {
 						clickNpLeftDoc(_class, _assocAttr.nodeValue.split(","));
+					}, false);
+				}
+			})(allHtmlTags[i], allHtmlTags[i].className, allHtmlTags[i].attributes[2]), 100);
+		}
+		else {
+			setTimeout((function (_tag, _class, _assocAttr) {
+				return function () {
+					_tag.addEventListener("click", function(event) {
+						clickNpRightDoc(_class, _assocAttr.nodeValue.split(","));
 					}, false);
 				}
 			})(allHtmlTags[i], allHtmlTags[i].className, allHtmlTags[i].attributes[2]), 100);
