@@ -2,6 +2,8 @@ var leftModified = new function() { this.condition = false; }
 var rightModified = new function() { this.condition = false; }
 var lastLeftClassUpdated = new function() { this.value = ""; };
 var lastRightClassUpdated = new function() { this.value = ""; };
+var lastLeftCycleUpdated = new function() { this.value = new Array(); };
+var lastRightCycleUpdated = new function() { this.value = new Array(); };
 var currColor = "333333";
 
 function clickNpLeftDoc(classToShow, assocNps) {
@@ -63,9 +65,11 @@ function cycle(assocNps, leftOrRight) {
 	var textToAddToClass = "";
 
 	if(leftOrRight == "left") {
+		lastCycleUpdated = lastLeftCycleUpdated;
 		textToAddToClass = "-tracking";
 	}
 	else if (leftOrRight == "right") {
+		lastCycleUpdated = lastRightCycleUpdated;
 		textToAddToClass = "";
 	}
 	else {
@@ -85,6 +89,8 @@ function cycle(assocNps, leftOrRight) {
 		}
 		currColor = (parseInt(currColor, 16) + 30000).toString(16);
 	}
+
+	lastCycleUpdated = assocNps;
 }
 
 function printAttributes(id, start, end) {
