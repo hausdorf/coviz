@@ -99,7 +99,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	for(i=0;i<allHtmlTags.length;i++) {
 		// TODO TODO TODO: Make this only work if we can parse an int out of it!
 		var className = allHtmlTags[i].className;
-		if(className.slice(className.length-9, className.length) != "-tracking") {
+		if(className == "") {
+			// Do nothing.
+		}
+		else if(className.slice(className.length-9, className.length) != "-tracking") {
 			// Hack: in JS, you are not allowed to re-declare variables, so you have to
 			// double-bind it to create a new execution context. Adding this code
 			// lets us automate the adding of event handlers for any arbitrary id/class
