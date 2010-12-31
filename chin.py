@@ -270,7 +270,7 @@ write.write("<div id=\"tracking\">")
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
-		write.write(generateTagOpenTracking(bss[bytespanIndex].getCorefId())) #2a
+		write.write(generateTagOpenTracking(bytespanIndex)) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
