@@ -45,12 +45,12 @@ function highlightChain(classToShow, leftOrRight) {
 	}
 
 	for(i=0; i<allHtmlTags.length; i++) {
-		if(allHtmlTags[i].className==lastClassUpdated.value + textToAddToClass) {
+		if(allHtmlTags[i].className==parseInt(lastClassUpdated.value) + textToAddToClass) {
 			allHtmlTags[i].style.color="inherit";
 			allHtmlTags[i].style.fontWeight="inherit";
 			allHtmlTags[i].style.textDecoration="inherit";
 		}
-		if(allHtmlTags[i].className==classToShow + textToAddToClass) {
+		if(allHtmlTags[i].className==parseInt(classToShow) + textToAddToClass) {
 			allHtmlTags[i].style.color="blue";
 			allHtmlTags[i].style.fontWeight="bold";
 			allHtmlTags[i].style.textDecoration="underline";
