@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			setTimeout((function (_tag, _class, _assocAttr) {
 				return function () {
 					_tag.addEventListener("click", function(event) {
-						clickNpLeftDoc(_class, _assocAttr.nodeValue);
+						clickNpLeftDoc(_class, _assocAttr.nodeValue.split(","));
 					}, false);
 				}
 			})(allHtmlTags[i], allHtmlTags[i].className, allHtmlTags[i].attributes[2]), 100);
