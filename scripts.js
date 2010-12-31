@@ -5,8 +5,13 @@ var lastRightClassUpdated = new function() { this.value = ""; };
 var currColor = "333333";
 
 function clickNpLeftDoc(classToShow, assocNps) {
-	highlightChain(classToShow, "left");
-	cycle(assocNps);
+	var lockingBool = leftModified;
+	if(!lockingBool.condition) {
+		lockingBool.condition = true;
+		highlightChain(classToShow, "left");
+		cycle(assocNps);
+	}
+	setTimeout(function(){lockingBool.condition=false},200);
 }
 
 function clickNpRightDoc(classToShow) {
@@ -14,7 +19,6 @@ function clickNpRightDoc(classToShow) {
 }
 
 function highlightChain(classToShow, leftOrRight) {
-	var lockingBool;
 	var lastClassUpdated;
 	var textToAddToClass = "";
 	var allHtmlTags = document.getElementsByTagName("*");
@@ -34,23 +38,19 @@ function highlightChain(classToShow, leftOrRight) {
 		" as valid input";
 	}
 
-	if(!lockingBool.condition) {
-		lockingBool.condition = true;
-		for(i=0; i<allHtmlTags.length; i++) {
-			if(allHtmlTags[i].className==lastClassUpdated.value + textToAddToClass) {
-				allHtmlTags[i].style.color="inherit";
-				allHtmlTags[i].style.fontWeight="inherit";
-				allHtmlTags[i].style.textDecoration="inherit";
-			}
-			if(allHtmlTags[i].className==classToShow + textToAddToClass) {
-				allHtmlTags[i].style.color="blue";
-				allHtmlTags[i].style.fontWeight="bold";
-				allHtmlTags[i].style.textDecoration="underline";
-			}
+	for(i=0; i<allHtmlTags.length; i++) {
+		if(allHtmlTags[i].className==lastClassUpdated.value + textToAddToClass) {
+			allHtmlTags[i].style.color="inherit";
+			allHtmlTags[i].style.fontWeight="inherit";
+			allHtmlTags[i].style.textDecoration="inherit";
 		}
-		lastClassUpdated.value = classToShow;
+		if(allHtmlTags[i].className==classToShow + textToAddToClass) {
+			allHtmlTags[i].style.color="blue";
+			allHtmlTags[i].style.fontWeight="bold";
+			allHtmlTags[i].style.textDecoration="underline";
+		}
 	}
-	setTimeout(function(){lockingBool.condition=false},200);
+	lastClassUpdated.value = classToShow;
 }
 
 function cycle(assocNps) {
