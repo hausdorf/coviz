@@ -18,6 +18,38 @@ usage: python coviz.py keyfile1 raw.txt keyfile2
 \end{verbatim}
 
 \subsection*{Description}
-$\texttt{coviz.py}$ is a visualization tool that helps users 
+$\texttt{coviz.py}$ is a visualization tool designed to help users understand how similar two interpretations of some text document are. The program is designed to show to interpretations of a document side-by-side, allowing users to see both what a noun phrase is coreferent to in the current interpretation of the document, and what coref chains that noun phrase is a part of in an alternate interpretation of the document.
+
+\subsection*{What you need to use the program}
+
+The main goal of the project was to have $\textit{one}$ script that generates $\textit{one}$ HTML file that contains everything it needs to do the visualization work. This way, users need only a browser to use the visualization tool.
+
+This ensures (1) that the package to download is small (the size of the script + some example data + some development stuff), and (2) that it works pretty much anywhere, since almost everyone has a browser.
+
+Because of these things, the following is $\textbf{required}$:
+
+\begin{itemize}
+\item Python (to run the script)
+\item Some sort of web browser, preferably as current as possible (to view the visualization)
+\item JavaScript enabled inside this browser
+\end{itemize}
+
+\subsection*{Using the program}
+
+The file creates an HTML file that has one text document interpreted two different ways, placed right next to each other. Each of the two interpretations should look something like follows, and will be placed side-by-side:
+
+\includegraphics[height=115px]{README_Example.jpg}
+
+\noindent $\textbf{When users click on any noun phrase}$, two things should happen:
+
+\begin{itemize}
+\item All coreferent noun phrases in the interpretation you clicked on will be highlighted. An example follows, although note that the noun phrase on the right has another (separate) noun phrase inside of it:
+
+\includegraphics[height=80px]{README_corefNPs.jpg}
+
+\item Any of the opposing interpretation's coref chains that have any of the words in common with the noun phrase you selected will also be highlighted. Here's an example:
+
+[I DO NOT HAVE A GOOD EXAMPLE OF THIS, AND WILL ENTER IT LATER]
+\end{itemize}
 
 \end{document}
