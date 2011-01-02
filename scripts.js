@@ -81,6 +81,13 @@ function cycle(assocNps, leftOrRight) {
 		var tmpClass = assocNps[i];
 		var allHTMLTags = document.getElementsByTagName("*");
 		for(var n = 0; n < allHTMLTags.length; n++) {
+			for(var t = 0; t < lastCycleUpdated.value.length; t++) {
+				if (allHTMLTags[n].className == parseInt(lastCycleUpdated.value[t]) + textToAddToClass) {
+					allHTMLTags[n].style.color = "inherit";
+					allHTMLTags[n].style.fontWeight = "inherit";
+					allHTMLTags[n].style.textDecoration = "inherit";
+				}
+			}
 			if(allHTMLTags[n].className==(parseInt(tmpClass).toString() + textToAddToClass)) {
 				allHTMLTags[n].style.color=currColor;
 				allHTMLTags[n].style.fontWeight="bold";
@@ -90,7 +97,7 @@ function cycle(assocNps, leftOrRight) {
 		currColor = (parseInt(currColor, 16) + 30000).toString(16);
 	}
 
-	lastCycleUpdated = assocNps;
+	lastCycleUpdated.value = assocNps;
 }
 
 function printAttributes(id, start, end) {
