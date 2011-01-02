@@ -8,7 +8,7 @@ import os
 ####                 ####
 # These are easy-access variables to change the behavior of the program.
 # Want to change things like what your output file is called? Start here.
-overlayFileTitle = "corefoverlay.html" # what the generated HTML file is called
+overlayFileTitle = "out.html" # what the generated HTML file is called
 
 #### INTERNAL DATA-HANDLING CLASSES ####
 ####                                ####
