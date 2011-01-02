@@ -191,7 +191,9 @@ overlapping.append(0)
 
 while(stdIndx < len(bss) and gldIndx < len(bss2)):
 	# Noramalize the gldIndx
-	while(bss2[gldIndx].getEnd() < bss[stdIndx].getStart() ):
+	while(gldIndx < len(bss2) and \
+	stdIndx < len(bss) and \
+	bss2[gldIndx].getEnd() < bss[stdIndx].getStart() ):
 		gldIndx += 1
 
 	# Look backwards
@@ -216,7 +218,8 @@ while(stdIndx < len(bss) and gldIndx < len(bss2)):
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
 read = open(sys.argv[2], 'rb')
-start = "<html>\n\n<head>" + generateJs() + "<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\">"
+start = "<html>\n\n<head>" + generateJs()
+start += "<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\">"
 start += "</head>\n\n<body>\n<div id=\"attribute-display\"></div>"
 write.write(start)
 
