@@ -6,3 +6,5 @@
 !scripts.js
 !style.css
 !.gitignore
+!*.tex
+!*.pdf

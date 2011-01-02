@@ -1,3 +1,0 @@
-USAGE: python chin.py key raw.txt
-
-COMES WITH: Test package. Switch to the directory the chin files exist at, and execute the statement above. Currently generates a file called corefoverlay.html; open this with your browser. When you click on the numbers at the top, the proper coref chains will be highlighted.
