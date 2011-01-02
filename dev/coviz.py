@@ -180,7 +180,7 @@ for line2 in range(1, len(lines2)):
 
 bss2 = sorted(bss2, cmp=orderBss)
 
-# Add the standard-goldstandard cross-ids
+# Add the associated coref ids to the std document
 stdIndx = 0
 gldIndx = 1
 overlapping = list()
@@ -210,6 +210,41 @@ while(stdIndx < len(bss) and gldIndx < len(bss2)):
 	while(tmpIndex < len(bss2) and bss2[tmpIndex].getStart() < bss[stdIndx].getEnd()):
 		if(bss2[tmpIndex].getEnd() > bss[stdIndx].getStart()):
 			bss[stdIndx].addAssocCorefId(bss2[tmpIndex].getCorefId())
+		tmpIndex += 1
+
+	stdIndx += 1
+
+
+# And now do the same in the opposite direction
+stdIndx = 0
+gldIndx = 1
+overlapping2 = list()
+
+# Set up base case
+overlapping2.append(0)
+
+while(stdIndx < len(bss) and gldIndx < len(bss2)):
+	# Noramalize the gldIndx
+	while(gldIndx < len(bss2) and \
+	stdIndx < len(bss) and \
+	bss[gldIndx].getEnd() < bss2[stdIndx].getStart() ):
+		gldIndx += 1
+
+	# Look backwards
+	tmpIndex = len(overlapping)-1
+	while(tmpIndex >= 0):
+		if(bss[tmpIndex].getEnd() < bss2[stdIndx].getStart() \
+		or bss[tmpIndex].getStart() > bss2[stdIndx].getEnd()):
+			overlapping2.pop(tmpIndex)
+		else:
+			bss2[stdIndx].addAssocCorefId(bss[tmpIndex].getCorefId())
+		tmpIndex -= 1
+
+	# Look forwards
+	tmpIndex = gldIndx
+	while(tmpIndex < len(bss) and bss[tmpIndex].getStart() < bss2[stdIndx].getEnd()):
+		if(bss[tmpIndex].getEnd() > bss2[stdIndx].getStart()):
+			bss2[stdIndx].addAssocCorefId(bss[tmpIndex].getCorefId())
 		tmpIndex += 1
 
 	stdIndx += 1
