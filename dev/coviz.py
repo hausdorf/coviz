@@ -170,7 +170,6 @@ lines2 = raw2.readlines()
 # Create a list to hold the goldstandard ByteSpan objects
 bss2 = list()
 
-
 # Process each line of the goldstandard's KEY, put in ByteSpan object
 for line2 in range(1, len(lines2)):
 	words2 = lines2[line2].split()
@@ -280,7 +279,7 @@ while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss2) and bss2[bytespanIndex].getStart() == charIndex: #2
 		write.write(generateTagOpenTracking(bytespanIndex)) #2a
-		bytespanStack.insert(0, bss[bytespanIndex]) #2b
+		bytespanStack.insert(0, bss2[bytespanIndex]) #2b
 		bytespanIndex+=1
 
 	while len(bytespanStack) != 0 and bytespanStack[0].getEnd() == charIndex: #3
