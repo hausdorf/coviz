@@ -84,13 +84,13 @@ def generateTagOpen(id):
 
 def generateTagOpenTracking(id):
 	ids = ""
-	for assocId in bss[id].getAssocCorefIds():
+	for assocId in bss2[id].getAssocCorefIds():
 		ids = ids + str(assocId) + ","
 	ids = ids[:len(ids)-1]
 
-	return_val = "<span class=\"" + str(bss[id].getCorefId())
+	return_val = "<span class=\"" + str(bss2[id].getCorefId())
 	return_val += "-tracking\" onmouseover=\"printAttributes(" + str(id)
-	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\" "
+	return_val += ", " + str(bss2[id].getStart()) + ", " + str(bss2[id].getEnd()) + ");\" "
 	return_val += "assocCorefId=\"" + ids + "\" "
 	return_val += "style=\"border:solid 1px #000;padding: 0;\">"
 	return return_val
