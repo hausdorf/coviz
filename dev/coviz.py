@@ -236,7 +236,7 @@ bss2 = parse_muc_annots(sys.argv[3])
 vector = build_coref_bitvector(bss, bss2, sys.argv[2])
 
 # Add the associated coref ids to the std document
-bss = add_assoc_corefids(bss, bss2)
+bss = add_assoc_corefids_from_bitvector(bss, bss2, vector)
 
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
