@@ -1,5 +1,5 @@
 #chin.py
-# usage: python chin.py key raw.txt
+# usage: python chin.py [coref_output] [original source text] [muc_annot]
 import sys
 import pdb
 import os
