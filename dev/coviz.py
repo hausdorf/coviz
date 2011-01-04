@@ -145,6 +145,26 @@ def parse_coref_output(file):
 	#  event of a tie, the largest bytespan comes first.
 	return sorted(bss, cmp=orderBss)
 
+def parse_muc_annots(file):
+	raw2 = open(file, 'r')
+
+	# Create a list of all lines in gold standard key
+	lines2 = raw2.readlines()
+
+	# Create a list to hold the goldstandard ByteSpan objects
+	bss2 = list()
+
+	# Process each line of the goldstandard's KEY, put in ByteSpan object
+	for line2 in range(1, len(lines2)):
+		words2 = lines2[line2].split()
+		if(words2[3] == "COREF"):
+			byteRange2 = words2[1].split(",")
+			id2 = filter(lambda x: x in '1234567890', words2[4])
+			bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), int(id2))
+			bss2.append(bs2)
+
+	return sorted(bss2, cmp=orderBss)
+
 #### CLI PROCESSING ####
 ####                ####
 
@@ -166,24 +186,8 @@ bss = parse_coref_output(sys.argv[1])
 
 ## GOLDSTANDARD KEY PARSING
 # Open gold standard key
-raw2 = open(sys.argv[3], 'r')
 
-# Create a list of all lines in gold standard key
-lines2 = raw2.readlines()
-
-# Create a list to hold the goldstandard ByteSpan objects
-bss2 = list()
-
-# Process each line of the goldstandard's KEY, put in ByteSpan object
-for line2 in range(1, len(lines2)):
-	words2 = lines2[line2].split()
-	if(words2[3] == "COREF"):
-		byteRange2 = words2[1].split(",")
-		id2 = filter(lambda x: x in '1234567890', words2[4])
-		bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), int(id2))
-		bss2.append(bs2)
-
-bss2 = sorted(bss2, cmp=orderBss)
+bss2 = parse_muc_annots(sys.argv[3])
 
 # Add the associated coref ids to the std document
 stdIndx = 0
