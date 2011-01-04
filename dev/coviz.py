@@ -239,6 +239,11 @@ def add_assoc_corefids_from_bitvector(arr1, arr2, vector):
 	arr2 = add_assoc_corefids_one_array(arr2, vector)
 	return arr1, arr2
 
+def write_outputfile_head(writeTo):
+	start = "<html>\n\n<head>" + generateJs()
+	start += "<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\">"
+	start += "</head>\n\n<body>\n<div id=\"attribute-display\"></div>"
+	writeTo.write(start)
 
 #### CLI PROCESSING ####
 ####                ####
