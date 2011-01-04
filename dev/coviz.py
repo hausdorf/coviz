@@ -251,23 +251,25 @@ if sys.argv[1] == "open":
 
 #### SETUP ####
 ####       ####
-# Parsing KEY, sorting the ByteSpan objects, etc.
 
+# Parse coref_output file, put corefids into Bytespan objects,
+# sort the objects
 bss = parse_coref_output(sys.argv[1])
 
-# Sort array for gold standard
-# FIND THE BYTESPAN THAT CORRESPONDS TO THE NEW BYTESPAN
-# Link and generate event handlers.
-
-## GOLDSTANDARD KEY PARSING
-# Open gold standard key
-
+# Do the same for the muc_annots file
 bss2 = parse_muc_annots(sys.argv[3])
 
-# Build bit vector
+# Build bit vector such that every element represents one character
+# in the source document (usually called raw.txt). At each element,
+# there will be a list of associated corefids that correspond to a
+# noun phrase that this character lies directly in.
 vector = build_coref_bitvector(bss, bss2, sys.argv[2])
 
-# Add the associated coref ids to the std document
+# Finds out which corefids between two interpretations have words in
+# common (i.e., are "associated") and put them inside internal lists
+# that track these things. Note that this is a symmetrical operation,
+# i.e., associated corefids are applied to both arrays we give
+# as formal parameters to the method.
 bss1, bss2 = add_assoc_corefids_from_bitvector(bss, bss2, vector)
 
 # Open new html file, begin writing basic template data to it.
