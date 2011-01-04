@@ -315,7 +315,7 @@ while char:
 
 	# 4
 	if char == "\n":
-		write.write("<p>\n") #4a
+		write.write("<br>\n") #4a
 	else:
 		write.write(char) #4b
 	charIndex+=1
