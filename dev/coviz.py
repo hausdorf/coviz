@@ -175,8 +175,6 @@ def build_coref_bitvector(arr1, arr2, file):
 	currOpenArr2 = list()
 	vector = list()
 
-	# TODO TODO TODO: create a bit vector here!!
-
 	while(char):
 		char = raw.read(1)
 		vector.append([[],[]])
