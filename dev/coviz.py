@@ -189,74 +189,11 @@ bss = parse_coref_output(sys.argv[1])
 
 bss2 = parse_muc_annots(sys.argv[3])
 
+# Build bit vector
+vector = build_bit_vector(bss, bss2, sys.argv[2])
+
 # Add the associated coref ids to the std document
-stdIndx = 0
-gldIndx = 1
-overlapping = list()
-
-# Set up base case
-overlapping.append(0)
-
-while(stdIndx < len(bss) and gldIndx < len(bss2)):
-	# Noramalize the gldIndx
-	while(gldIndx < len(bss2) and \
-	stdIndx < len(bss) and \
-	bss2[gldIndx].getEnd() < bss[stdIndx].getStart() ):
-		gldIndx += 1
-
-	# Look backwards
-	tmpIndex = len(overlapping)-1
-	while(tmpIndex >= 0):
-		if(bss2[tmpIndex].getEnd() < bss[stdIndx].getStart() \
-		or bss2[tmpIndex].getStart() > bss[stdIndx].getEnd()):
-			overlapping.pop(tmpIndex)
-		else:
-			bss[stdIndx].addAssocCorefId(bss2[tmpIndex].getCorefId())
-		tmpIndex -= 1
-
-	# Look forwards
-	tmpIndex = gldIndx
-	while(tmpIndex < len(bss2) and bss2[tmpIndex].getStart() < bss[stdIndx].getEnd()):
-		if(bss2[tmpIndex].getEnd() > bss[stdIndx].getStart()):
-			bss[stdIndx].addAssocCorefId(bss2[tmpIndex].getCorefId())
-		tmpIndex += 1
-
-	stdIndx += 1
-
-
-# And now do the same in the opposite direction
-stdIndx = 0
-gldIndx = 1
-overlapping2 = list()
-
-# Set up base case
-overlapping2.append(0)
-
-while(stdIndx < len(bss) and gldIndx < len(bss2)):
-	# Noramalize the gldIndx
-	while(gldIndx < len(bss2) and \
-	stdIndx < len(bss) and \
-	bss[gldIndx].getEnd() < bss2[stdIndx].getStart() ):
-		gldIndx += 1
-
-	# Look backwards
-	tmpIndex = len(overlapping)-1
-	while(tmpIndex >= 0):
-		if(bss[tmpIndex].getEnd() < bss2[stdIndx].getStart() \
-		or bss[tmpIndex].getStart() > bss2[stdIndx].getEnd()):
-			overlapping2.pop(tmpIndex)
-		else:
-			bss2[stdIndx].addAssocCorefId(bss[tmpIndex].getCorefId())
-		tmpIndex -= 1
-
-	# Look forwards
-	tmpIndex = gldIndx
-	while(tmpIndex < len(bss) and bss[tmpIndex].getStart() < bss2[stdIndx].getEnd()):
-		if(bss[tmpIndex].getEnd() > bss2[stdIndx].getStart()):
-			bss2[stdIndx].addAssocCorefId(bss[tmpIndex].getCorefId())
-		tmpIndex += 1
-
-	stdIndx += 1
+bss = add_assoc_corefids(bss, bss2)
 
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
