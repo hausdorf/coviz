@@ -22,3 +22,7 @@ span {
 	display:inline-block;
 	margin:2px;
 }
+
+span br {
+	display:none;
+}
