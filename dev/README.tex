@@ -17,19 +17,17 @@
 usage: python coviz.py [reconcile output] [source text] [muc annotations]
 \end{verbatim}
 
-\noindent Developed by the University of Utah's NLP Research Group [http://www.cs.utah.edu/nlp/] \\
-\noindent Repository hosted at: http://github.com/DrSleep/coviz \\
-\noindent Bug reports: clemmer.alexander@gmail.com
+\noindent $\textbf{Developed by:}$ the University of Utah's NLP Research Group [http://www.cs.utah.edu/nlp/] \\
+\noindent $\textbf{Repository hosted at:}$ http://github.com/DrSleep/coviz \\
+\noindent $\textbf{Bug reports:}$ clemmer.alexander@gmail.com
 
 \subsection*{Description}
 $\texttt{coviz.py}$ is a visualization tool created specifically for the University of Utah's Reconcile program \\
 (http://www.cs.utah.edu/nlp/reconcile/), and designed to help users understand how similar two interpretations of some text document are. The program is designed to show to interpretations of a document side-by-side, allowing users to see both what a noun phrase is coreferent to in the current interpretation of the document, and what coref chains that noun phrase is a part of in an alternate interpretation of the document.
 
-\subsection*{What you need to use the program}
+\section{What you need to use the program}
 
 The main goal of the project was to have $\textit{one}$ script that generates $\textit{one}$ HTML file that contains everything it needs to do the visualization work. This way, users need only a browser to use the visualization tool.
-
-This ensures (1) that the package to download is small (the size of the script + some example data + some development stuff), and (2) that it works pretty much anywhere, since almost everyone has a browser.
 
 Because of these things, the following is $\textbf{required}$:
 
@@ -39,26 +37,43 @@ Because of these things, the following is $\textbf{required}$:
 \item JavaScript enabled inside this browser
 \end{itemize}
 
-\subsection*{Using the program}
+\section{Using the program}
 
-When you're in the directory of both the script and the relevant output of Reconcile, run the command $\texttt{python coviz.py keyfile1 raw.txt keyfile2}$, where $\texttt{coviz.py}$ is the name of the script that will create the viz file, $\texttt{raw.txt}$ is the original text file, and $\texttt{keyfile1}$ and $\texttt{keyfile2}$ are the files that tell us the specific bytes in the original text file that correspond to related noun phrases.
+\subsection{Running the program}
 
-The output is $\texttt{out.html}$. Open it in a browser.
+The $\textbf{general form}$ of the command is: \\
 
-The file creates an HTML file that has one text document interpreted two different ways, placed right next to each other. Each of the two interpretations should look something like follows, and will be placed side-by-side:
+$\texttt{python coviz.py [reconcile output] [source text] [muc annotations]}$ \\
+
+If you'd like to see an $\textbf{example}$ using the test data provided, then you can generate the output file by using this command: \\
+
+$\texttt{python coviz.py coref\_output raw.txt muc\_annots}$ \\
+
+This outputs a file called $\texttt{out.html}$. $\textbf{Open this}$ in any browser to begin interacting with the visualization.
+
+\subsection{Making sense of the output}
+
+Once you've opened it, you'll see two interpretations of the same document placed directly next to each other. It should look something like this:
+
+\includegraphics[width=460px]{README_start.png}
+
+Each of these interpretations has lots of little boxes inside it. Each of these represents one noun phrase (see the next picture). Note that NPs can be nested arbitrarily many times.
 
 \includegraphics[height=115px]{README_Example.jpg}
 
-\noindent $\textbf{When users click on any noun phrase}$, two things should happen:
+\subsection{Clicking on NPs}
+
+The basic idea behind this visualization tool is that we want to compare how some NP manifests across two interpretations of some document. So, when users click on a document, obviously all NPs that are coreferent to that particular NP should be highlighted in that interpretation. But we also want to see what coref chains it is a part of in the other interpretation, too! So when users click on any noun phrase, two things should happen:
 
 \begin{itemize}
-\item All coreferent noun phrases in the interpretation you clicked on will be highlighted. An example follows, although note that the noun phrase on the right has another (separate) noun phrase inside of it:
+\item All coreferent noun phrases in the interpretation you clicked on will be highlighted. An example follows, although note that the noun phrase on the right has another (separate) noun phrase inside of it.
 
-\includegraphics[height=80px]{README_corefNPs.jpg}
+\includegraphics[height=110px]{README_corefNPs.jpg}
 
 \item Any of the opposing interpretation's coref chains that have any of the words in common with the noun phrase you selected will also be highlighted. Here's an example:
 
-[I DO NOT HAVE A GOOD EXAMPLE OF THIS, AND WILL ENTER IT LATER]
+\includegraphics[width=460px]{README_cycleillustration.jpg}
+
 \end{itemize}
 
 \end{document}
