@@ -183,11 +183,9 @@ def build_coref_bitvector(arr1, arr2, file):
 
 		while(i1 < len(arr1) and charIndex == arr1[i1].getStart()):
 			currOpenArr1.append(i1)
-			print(str(arr1[i1].getCorefId()) + " " + str(i1))
 			i1 += 1
 		while(i2 < len(arr2) and charIndex == arr2[i2].getStart()):
 			currOpenArr2.append(i2)
-			print(str(arr2[i2].getCorefId()) + " " + str(i2))
 			i2 += 1
 
 		for index in currOpenArr1:
