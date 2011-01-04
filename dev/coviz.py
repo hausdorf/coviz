@@ -145,10 +145,13 @@ lines = raw.readlines()
 bss = list()
 
 # Process each line of the KEY file in succession, put in ByteSpan object
-for line in range(1, len(lines)):
+for line in range(0, len(lines)):
 	words = lines[line].split()
 	byteRange = words[1].split(",")	#parse bytespan
-	id = filter(lambda x: x in '1234567890', words[5])	#turn bytespan into numbers
+	for word in words:
+		if(word[0:9] == 'CorefID="'):
+			id = filter(lambda x: x in '1234567890', word)	#turn bytespan into numbers
+		# DO WE WANT TO CHECK TO MAKE SURE THAT COREFID PROPERTY IS HERE?
 	bs = ByteSpan(int(byteRange[0]), int(byteRange[1]), int(id))	#store bytespan in object
 	bss.append(bs)	#add object to list
 
