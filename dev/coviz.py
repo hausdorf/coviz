@@ -277,13 +277,12 @@ vector = build_coref_bitvector(bss, bss2, sys.argv[2])
 # as formal parameters to the method.
 bss1, bss2 = add_assoc_corefids_from_bitvector(bss, bss2, vector)
 
-# Open new html file, begin writing basic template data to it.
+# Make the file handlers we will use to write our output file (which
+# is usually called out.html).
 write = open(overlayFileTitle, 'w')
 read = open(sys.argv[2], 'rb')
-start = "<html>\n\n<head>" + generateJs()
-start += "<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\">"
-start += "</head>\n\n<body>\n<div id=\"attribute-display\"></div>"
-write.write(start)
+
+write_outputfile_head(write)
 
 write.write("<div id=\"original\">")
 
