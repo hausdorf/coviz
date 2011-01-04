@@ -240,9 +240,9 @@ def add_assoc_corefids_from_bitvector(arr1, arr2, vector):
 	return arr1, arr2
 
 def write_outputfile_head(writeTo):
-	start = "<html>\n\n<head>" + generateJs()
-	start += "<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\">"
-	start += "</head>\n\n<body>\n<div id=\"attribute-display\"></div>"
+	start = '<html>\n\n<head>' + generateJs()
+	start += '<link href="style.css" rel="stylesheet" type="text/css">'
+	start += '</head>\n\n<body>\n<div id="attribute-display"></div>'
 	writeTo.write(start)
 
 #### CLI PROCESSING ####
@@ -250,7 +250,7 @@ def write_outputfile_head(writeTo):
 
 if sys.argv[1] == "open":
 	# OPEN OVERLAY HTML HERE!
-	os.system("open \"http://www.google.com\"")
+	os.system('open "http://www.google.com"')
 	sys.exit()
 
 
@@ -285,7 +285,7 @@ read = open(sys.argv[2], 'rb')
 # Write the output file's head (e.g., "<html><head>..." and so on).
 write_outputfile_head(write)
 
-write.write("<div id=\"original\">")
+write.write('<div id="original">')
 write.write('<span class="title">Name of interpretation file: <tt>' + str(sys.argv[1]) + '</tt></span><p><p>')
 
 #### WRITE THE OVERLAY FILE ####
