@@ -120,6 +120,30 @@ def createIdLink(itemId):
 	return_val += "</span>\t"
 	return return_val
 
+def parse_coref_output(file):
+	# Open file from argument
+	raw = open(file, 'r')
+
+	# Create a list of all lines in the key
+	lines = raw.readlines()
+
+	# Create a list to hold the ByteSpan objects
+	bss = list()
+
+	# Process each line of the KEY file in succession, put in ByteSpan object
+	for line in range(0, len(lines)):
+		words = lines[line].split()
+		byteRange = words[1].split(",")	#parse bytespan
+		for word in words:
+			if(word[0:9] == 'CorefID="'):
+				id = filter(lambda x: x in '1234567890', word)	#turn bytespan into numbers
+			# DO WE WANT TO CHECK TO MAKE SURE THAT COREFID PROPERTY IS HERE?
+		bs = ByteSpan(int(byteRange[0]), int(byteRange[1]), int(id))	#store bytespan in object
+		bss.append(bs)	#add object to list
+
+	# Sort the list. Begin with starting position of bytespan; in the
+	#  event of a tie, the largest bytespan comes first.
+	return sorted(bss, cmp=orderBss)
 
 #### CLI PROCESSING ####
 ####                ####
@@ -134,30 +158,7 @@ if sys.argv[1] == "open":
 ####       ####
 # Parsing KEY, sorting the ByteSpan objects, etc.
 
-
-# Open file from argument
-raw = open(sys.argv[1], 'r')
-
-# Create a list of all lines in the key
-lines = raw.readlines()
-
-# Create a list to hold the ByteSpan objects
-bss = list()
-
-# Process each line of the KEY file in succession, put in ByteSpan object
-for line in range(0, len(lines)):
-	words = lines[line].split()
-	byteRange = words[1].split(",")	#parse bytespan
-	for word in words:
-		if(word[0:9] == 'CorefID="'):
-			id = filter(lambda x: x in '1234567890', word)	#turn bytespan into numbers
-		# DO WE WANT TO CHECK TO MAKE SURE THAT COREFID PROPERTY IS HERE?
-	bs = ByteSpan(int(byteRange[0]), int(byteRange[1]), int(id))	#store bytespan in object
-	bss.append(bs)	#add object to list
-
-# Sort the list. Begin with starting position of bytespan; in the
-#  event of a tie, the largest bytespan comes first.
-bss = sorted(bss, cmp=orderBss)
+bss = parse_coref_output(sys.argv[1])
 
 # Sort array for gold standard
 # FIND THE BYTESPAN THAT CORRESPONDS TO THE NEW BYTESPAN
