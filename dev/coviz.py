@@ -165,6 +165,51 @@ def parse_muc_annots(file):
 
 	return sorted(bss2, cmp=orderBss)
 
+def build_coref_bitvector(arr1, arr2, file):
+	raw = open(file, 'rb')
+	char = True  # current character
+	charIndex = 0  # current character index
+	i1 = 0
+	i2 = 0
+	currOpenArr1 = list()
+	currOpenArr2 = list()
+	vector = list()
+
+	# TODO TODO TODO: create a bit vector here!!
+
+	while(char):
+		char = raw.read(1)
+		vector.append([[],[]])
+
+		while(i1 < len(arr1) and charIndex == arr1[i1].getStart()):
+			currOpenArr1.append(i1)
+			print(str(arr1[i1].getCorefId()) + " " + str(i1))
+			i1 += 1
+		while(i2 < len(arr2) and charIndex == arr2[i2].getStart()):
+			currOpenArr2.append(i2)
+			print(str(arr2[i2].getCorefId()) + " " + str(i2))
+			i2 += 1
+
+		for index in currOpenArr1:
+			if(charIndex == arr1[index].getEnd()):
+				vector[charIndex][0].append(arr1[index].getCorefId())
+				currOpenArr1[currOpenArr1.index(index)] = -1
+		for index in currOpenArr2:
+			if(charIndex == arr2[index].getEnd()):
+				vector[charIndex][1].append(arr2[index].getCorefId())
+				currOpenArr2[currOpenArr2.index(index)] = -1
+
+		currOpenArr1 = filter(lambda a: a != -1, currOpenArr1)
+		currOpenArr2 = filter(lambda a: a != -1, currOpenArr2)
+
+		for index in currOpenArr1:
+			vector[charIndex][0].append(arr1[index].getCorefId())
+		for index in currOpenArr2:
+			vector[charIndex][1].append(arr2[index].getCorefId())
+		charIndex += 1
+
+	return vector
+
 #### CLI PROCESSING ####
 ####                ####
 
@@ -190,7 +235,7 @@ bss = parse_coref_output(sys.argv[1])
 bss2 = parse_muc_annots(sys.argv[3])
 
 # Build bit vector
-vector = build_bit_vector(bss, bss2, sys.argv[2])
+vector = build_coref_bitvector(bss, bss2, sys.argv[2])
 
 # Add the associated coref ids to the std document
 bss = add_assoc_corefids(bss, bss2)
