@@ -282,6 +282,7 @@ bss1, bss2 = add_assoc_corefids_from_bitvector(bss, bss2, vector)
 write = open(overlayFileTitle, 'w')
 read = open(sys.argv[2], 'rb')
 
+# Write the output file's head (e.g., "<html><head>..." and so on).
 write_outputfile_head(write)
 
 write.write("<div id=\"original\">")
