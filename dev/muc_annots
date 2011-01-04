@@ -1,0 +1,90 @@
+1	0,4179	string	DOC	
+2	1,17	string	DOCID	
+3	18,32	string	DOCNO	
+4	33,220	string	HL	
+5	49,78	string	COREF	ID="1" MIN="Washington" 
+6	119,122	string	COREF	ID="3" 
+7	221,231	string	DD	
+8	232,266	string	SO	
+9	267,279	string	DATELINE	
+10	280,4178	string	TXT	
+11	281,475	string	p	
+12	282,361	string	COREF	ID="0" MIN="Consuela Washington" REF="1" TYPE="IDENT" 
+13	345,355	string	COREF	ID="7" 
+14	405,473	string	COREF	ID="2" MIN="Securities and Exchange Commission" REF="3" TYPE="IDENT" 
+15	447,473	string	COREF	ID="61" MIN="administration" 
+16	451,458	string	COREF	ID="24" 
+17	476,625	string	p	
+18	477,506	string	COREF	ID="4" MIN="Washington" REF="0" TYPE="IDENT" 
+19	560,623	string	COREF	ID="5" MIN="commission" REF="2" TYPE="IDENT" 
+20	605,615	string	COREF	ID="6" REF="7" TYPE="IDENT" 
+21	626,998	string	p	
+22	627,641	string	COREF	ID="8" MIN="Washington" REF="4" TYPE="IDENT" 
+23	714,801	string	COREF	ID="11" MIN="boss" 
+24	714,717	string	COREF	ID="9" REF="8" TYPE="IDENT" 
+25	724,800	string	COREF	ID="10" MIN="John Dingell" REF="11" TYPE="IDENT" 
+26	761,800	string	COREF	ID="14" 
+27	802,805	string	COREF	ID="12" REF="9" TYPE="IDENT" 
+28	832,845	string	COREF	ID="13" REF="14" TYPE="IDENT" 
+29	847,861	string	COREF	ID="15" MIN="Washington" REF="12" TYPE="IDENT" 
+30	866,877	string	COREF	ID="16" MIN="Dingell" REF="10" TYPE="IDENT" 
+31	899,933	string	COREF	ID="19" MIN="allies" 
+32	913,923	string	COREF	ID="17" REF="6" TYPE="IDENT" 
+33	992,996	string	COREF	ID="18" REF="19" STATUS="OPT" TYPE="IDENT" 
+34	999,1182	string	p	
+35	1000,1048	string	COREF	ID="20" MIN="graduate|Washington" REF="15" TYPE="IDENT" 
+36	1106,1113	string	COREF	ID="21" REF="5" TYPE="IDENT" 
+37	1133,1136	string	COREF	ID="22" REF="20" TYPE="IDENT" 
+38	1183,1631	string	p	
+39	1196,1224	string	COREF	ID="41" MIN="officials" 
+40	1196,1203	string	COREF	ID="23" REF="24" TYPE="IDENT" 
+41	1235,1316	string	COREF	ID="26" MIN="Frank Newman" 
+42	1253,1266	string	COREF	ID="25" MIN="chairman" REF="26" STATUS="OPT" TYPE="IDENT" 
+43	1271,1315	string	COREF	ID="27" MIN="officer" REF="26" STATUS="OPT" TYPE="IDENT" 
+44	1358,1366	string	COREF	ID="30" 
+45	1399,1468	string	COREF	ID="28" MIN="Newman" REF="26" TYPE="IDENT" 
+46	1487,1495	string	COREF	ID="29" REF="30" TYPE="IDENT" 
+47	1510,1520	string	COREF	ID="55" 
+48	1559,1561	string	COREF	ID="31" REF="28" TYPE="IDENT" 
+49	1587,1629	string	COREF	ID="34" MIN="Lloyd Bentsen" 
+50	1587,1595	string	COREF	ID="32" REF="29" TYPE="IDENT" 
+51	1632,1831	string	p	
+52	1633,1709	string	COREF	ID="33" MIN="Bentsen" REF="34" TYPE="IDENT" 
+53	1657,1685	string	COREF	ID="36" 
+54	1739,1790	string	COREF	ID="38" MIN="Samuel Sessions" 
+55	1756,1789	string	COREF	ID="37" MIN="counsel" REF="38" TYPE="IDENT" 
+56	1756,1769	string	COREF	ID="35" REF="36" TYPE="IDENT" 
+57	1821,1829	string	COREF	ID="39" REF="32" TYPE="IDENT" 
+58	1832,2387	string	p	
+59	1852,1868	string	COREF	ID="40" MIN="camp" REF="41" STATUS="OPT" TYPE="IDENT" 
+60	1856,1863	string	COREF	ID="42" REF="23" TYPE="IDENT" 
+61	2123,2144	string	COREF	ID="44" MIN="Tim Wirth" 
+62	2291,2312	string	COREF	ID="43" MIN="Democrat" REF="44" TYPE="IDENT" 
+63	2388,2667	string	p	
+64	2535,2573	string	COREF	ID="46" MIN="Strobe Talbott" 
+65	2589,2665	string	COREF	ID="45" MIN="ambassador-at-large|ambassador" REF="46" STATUS="OPT" TYPE="IDENT" 
+66	2668,2953	string	p	
+67	2805,2868	string	COREF	ID="48" MIN="Bernadine Healy" 
+68	2822,2867	string	COREF	ID="47" MIN="director" REF="48" TYPE="IDENT" 
+69	2896,2952	string	COREF	ID="50" MIN="David Kessler" 
+70	2911,2951	string	COREF	ID="49" MIN="head" REF="50" TYPE="IDENT" 
+71	2954,3291	string	p	
+72	3132,3190	string	COREF	ID="52" MIN="Robert Kyle" 
+73	3145,3189	string	COREF	ID="51" MIN="counsel" REF="52" TYPE="IDENT" 
+74	3149,3173	string	COREF	ID="53" REF="35" TYPE="IDENT" 
+75	3275,3289	string	COREF	ID="54" REF="55" STATUS="OPT" TYPE="IDENT" 
+76	3292,3595	string	p	
+77	3374,3391	string	COREF	ID="56" MIN="officials" REF="41" TYPE="IDENT" 
+78	3374,3381	string	COREF	ID="57" REF="42" TYPE="IDENT" 
+79	3596,3868	string	p	
+80	3714,3734	string	COREF	ID="59" 
+81	3818,3832	string	COREF	ID="58" REF="59" TYPE="IDENT" 
+82	3869,4177	string	p	
+83	3882,3917	string	COREF	ID="60" MIN="administration" REF="61" TYPE="IDENT" 
+84	3895,3902	string	COREF	ID="62" REF="57" TYPE="IDENT" 
+85	3950,4040	string	COREF	ID="66" MIN="room" 
+86	3954,3962	string	COREF	ID="68" 
+87	4024,4039	string	COREF	ID="64" 
+88	4048,4063	string	COREF	ID="63" REF="64" TYPE="IDENT" 
+89	4118,4143	string	COREF	ID="65" MIN="room" REF="66" TYPE="IDENT" 
+90	4130,4138	string	COREF	ID="67" REF="68" STATUS="OPT" TYPE="IDENT" 

@@ -1,7 +1,8 @@
 *
 !coviz.py
-!key
 !raw.txt
+!muc_annots
+!coref_output
 !README
 !scripts.js
 !style.css
