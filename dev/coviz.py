@@ -214,7 +214,7 @@ def add_assoc_corefids_from_bitvector(arr1, arr2, vector):
 		i1 = 0
 		i2 = 0
 		for charIndex in range(len(vector)):
-			print(str(charIndex) + " " + str(vector[charIndex]))
+			#print(str(charIndex) + " " + str(vector[charIndex]))  # DEBUGGING!
 			while(i1 < len(arr) and charIndex == arr[i1].getStart()):
 				# temporarily store coref ids in a hash table
 				# this masks the "check for duplicates" step for us
