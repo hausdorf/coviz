@@ -286,6 +286,7 @@ read = open(sys.argv[2], 'rb')
 write_outputfile_head(write)
 
 write.write("<div id=\"original\">")
+write.write('<span class="title">Name of interpretation file: <tt>' + str(sys.argv[1]) + '</tt></span><p><p>')
 
 #### WRITE THE OVERLAY FILE ####
 ####                        ####
@@ -338,6 +339,7 @@ read = open(sys.argv[2], 'rb')
 
 # Create div#tracking
 write.write("<div id=\"tracking\">")
+write.write('<span class="title">Name of interpretation file: <tt>' + str(sys.argv[3]) + '</tt></span><p><p>')
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss2) and bss2[bytespanIndex].getStart() == charIndex: #2

@@ -26,3 +26,16 @@ span {
 span br {
 	display:none;
 }
+
+span.title {
+	width:auto;
+	position:fixed;
+	font-weight:bold;
+	padding:6px;
+	border:solid 1px #000;
+	background-color:white;
+	/* for IE */
+	filter:alpha(opacity=60);
+	/* CSS3 standard */
+	opacity:0.6;
+}
