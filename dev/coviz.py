@@ -206,6 +206,40 @@ def build_coref_bitvector(arr1, arr2, file):
 
 	return vector
 
+def add_assoc_corefids_from_bitvector(arr1, arr2, vector):
+	# the following is a nested function that allows us to do the same
+	# operation once each on both incoming arrays without code
+	# duplication or another visible method
+	def add_assoc_corefids_one_array(arr, vector):
+		i1 = 0
+		i2 = 0
+		for charIndex in range(len(vector)):
+			print(str(charIndex) + " " + str(vector[charIndex]))
+			while(i1 < len(arr) and charIndex == arr[i1].getStart()):
+				# temporarily store coref ids in a hash table
+				# this masks the "check for duplicates" step for us
+				ids = {}
+
+				# move one character forward continuously until bs ends
+				tmpi = charIndex
+				while(tmpi < len(vector) and tmpi <= arr[i1].getEnd()):
+					# when we encounter a coref id we haven't added, add to list
+					for corefid in vector[tmpi][1]:
+						ids[corefid] = corefid
+					tmpi += 1
+
+				for assocCorefId in ids:
+					arr[i1].addAssocCorefId(assocCorefId)
+
+				# once it ends, increment i1
+				i1 += 1
+		return arr
+
+	arr1 = add_assoc_corefids_one_array(arr1, vector)
+	arr2 = add_assoc_corefids_one_array(arr2, vector)
+	return arr1, arr2
+
+
 #### CLI PROCESSING ####
 ####                ####
 
@@ -234,7 +268,7 @@ bss2 = parse_muc_annots(sys.argv[3])
 vector = build_coref_bitvector(bss, bss2, sys.argv[2])
 
 # Add the associated coref ids to the std document
-bss = add_assoc_corefids_from_bitvector(bss, bss2, vector)
+bss1, bss2 = add_assoc_corefids_from_bitvector(bss, bss2, vector)
 
 # Open new html file, begin writing basic template data to it.
 write = open(overlayFileTitle, 'w')
