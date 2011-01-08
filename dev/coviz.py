@@ -77,13 +77,12 @@ def generateTagOpen(id):
 		ids = ids + str(assocId) + ","
 	ids = ids[:len(ids)-1]
 
-	return_val = "<span class=\"" + str(bss[id].getCorefId())
-	return_val += "\" onmouseover=\"printAttributes(" + str(id)
-	return_val += ", " + str(bss[id].getStart()) + ", "
-	return_val += str(bss[id].getEnd()) + ");\" "
-	return_val += "assocCorefId=\"" + ids + "\" "
-	return_val += "style=\"border: solid 1px #000;padding: 0;\">"
-	return return_val
+	return "<span class=\"" + str(bss[id].getCorefId()) \
+		+ "\" onmouseover=\"printAttributes(" + str(id) \
+		+ ", " + str(bss[id].getStart()) + ", " \
+		+ str(bss[id].getEnd()) + ");\" " \
+		+ "assocCorefId=\"" + ids + "\" " \
+		+ "style=\"border: solid 1px #000;padding: 0;\">"
 
 def generateTagOpenTracking(id):
 	ids = ""
@@ -91,13 +90,12 @@ def generateTagOpenTracking(id):
 		ids = ids + str(assocId) + ","
 	ids = ids[:len(ids)-1]
 
-	return_val = "<span class=\"" + str(bss2[id].getCorefId())
-	return_val += "-tracking\" onmouseover=\"printAttributes(" + str(id)
-	return_val += ", " + str(bss2[id].getStart()) + ", "
-	return_val += str(bss2[id].getEnd()) + ");\" "
-	return_val += "assocCorefId=\"" + ids + "\" "
-	return_val += "style=\"border:solid 1px #000;padding: 0;\">"
-	return return_val
+	return "<span class=\"" + str(bss2[id].getCorefId()) \
+		+ "-tracking\" onmouseover=\"printAttributes(" + str(id) \
+		+ ", " + str(bss2[id].getStart()) + ", " \
+		+ str(bss2[id].getEnd()) + ");\" " \
+		+ "assocCorefId=\"" + ids + "\" " \
+		+ "style=\"border:solid 1px #000;padding: 0;\">"
 
 # Generates a closing for a span tag.
 #  Intended to be close a tag that was openend with generateTagOpen()
@@ -119,11 +117,10 @@ def orderBss(x, y):
 		return (y.getEnd() - y.getStart()) - (x.getEnd() - x.getStart())
 
 def createIdLink(itemId):
-	return_val = "<span onclick=\"peek('" + str(itemId)
-	return_val += "')\" style=\"background-color:#DDD;cursor:pointer;\">"
-	return_val += str(itemId)
-	return_val += "</span>\t"
-	return return_val
+	return "<span onclick=\"peek('" + str(itemId) \
+		+ "')\" style=\"background-color:#DDD;cursor:pointer;\">" \
+		+ str(itemId) \
+		+ "</span>\t"
 
 def parse_coref_output(file):
 	# Open file from argument
