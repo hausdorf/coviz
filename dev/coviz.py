@@ -28,7 +28,8 @@ class ByteSpan:
 		self.assocCorefId = list()
 
 	def __str__(self):
-		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
+		return str(self.start) + " " + str(self.end) + " " \
+		+ str(self.corefId)
 
 	def addAssocCorefId(self, id):
 		self.assocCorefId.append(id)
@@ -55,7 +56,8 @@ class ByteSpan:
 	# For debugging
 
 	def __str__(self):
-		return str(self.start) + " " + str(self.end) + " " + str(self.corefId)
+		return str(self.start) + " " + str(self.end) + " " \
+		+ str(self.corefId)
 
 	def printargs(self):
 		print self.start, self.end, self.corefId
@@ -77,7 +79,8 @@ def generateTagOpen(id):
 
 	return_val = "<span class=\"" + str(bss[id].getCorefId())
 	return_val += "\" onmouseover=\"printAttributes(" + str(id)
-	return_val += ", " + str(bss[id].getStart()) + ", " + str(bss[id].getEnd()) + ");\" "
+	return_val += ", " + str(bss[id].getStart()) + ", "
+	return_val += str(bss[id].getEnd()) + ");\" "
 	return_val += "assocCorefId=\"" + ids + "\" "
 	return_val += "style=\"border: solid 1px #000;padding: 0;\">"
 	return return_val
@@ -90,7 +93,8 @@ def generateTagOpenTracking(id):
 
 	return_val = "<span class=\"" + str(bss2[id].getCorefId())
 	return_val += "-tracking\" onmouseover=\"printAttributes(" + str(id)
-	return_val += ", " + str(bss2[id].getStart()) + ", " + str(bss2[id].getEnd()) + ");\" "
+	return_val += ", " + str(bss2[id].getStart()) + ", "
+	return_val += str(bss2[id].getEnd()) + ");\" "
 	return_val += "assocCorefId=\"" + ids + "\" "
 	return_val += "style=\"border:solid 1px #000;padding: 0;\">"
 	return return_val
@@ -116,7 +120,8 @@ def orderBss(x, y):
 
 def createIdLink(itemId):
 	return_val = "<span onclick=\"peek('" + str(itemId)
-	return_val += "')\" style=\"background-color:#DDD;cursor:pointer;\">" + str(itemId)
+	return_val += "')\" style=\"background-color:#DDD;cursor:pointer;\">"
+	return_val += str(itemId)
 	return_val += "</span>\t"
 	return return_val
 
@@ -136,9 +141,11 @@ def parse_coref_output(file):
 		byteRange = words[1].split(",")	#parse bytespan
 		for word in words:
 			if(word[0:9] == 'CorefID="'):
-				id = filter(lambda x: x in '1234567890', word)	#turn bytespan into numbers
+				# bytespans to numbers
+				id = filter(lambda x: x in '1234567890', word)
 			# DO WE WANT TO CHECK TO MAKE SURE THAT COREFID PROPERTY IS HERE?
-		bs = ByteSpan(int(byteRange[0]), int(byteRange[1]), int(id))	#store bytespan in object
+		#store bytespan in object
+		bs = ByteSpan(int(byteRange[0]), int(byteRange[1]), int(id))
 		bss.append(bs)	#add object to list
 
 	# Sort the list. Begin with starting position of bytespan; in the
@@ -214,7 +221,7 @@ def add_assoc_corefids_from_bitvector(arr1, arr2, vector):
 		i1 = 0
 		i2 = 0
 		for charIndex in range(len(vector)):
-			#print(str(charIndex) + " " + str(vector[charIndex]))  # DEBUGGING!
+			#print(str(charIndex) + " " + str(vector[charIndex]))  # Debug!
 			while(i1 < len(arr) and charIndex == arr[i1].getStart()):
 				# temporarily store coref ids in a hash table
 				# this masks the "check for duplicates" step for us
@@ -223,7 +230,7 @@ def add_assoc_corefids_from_bitvector(arr1, arr2, vector):
 				# move one character forward continuously until bs ends
 				tmpi = charIndex
 				while(tmpi < len(vector) and tmpi <= arr[i1].getEnd()):
-					# when we encounter a coref id we haven't added, add to list
+					# when we encounter corefid we haven't added, add to list
 					for corefid in vector[tmpi][1]:
 						ids[corefid] = corefid
 					tmpi += 1
@@ -286,7 +293,8 @@ read = open(sys.argv[2], 'rb')
 write_outputfile_head(write)
 
 write.write('<div id="original">')
-write.write('<span class="title">Name of interpretation file: <tt>' + str(sys.argv[1]) + '</tt></span><p><p>')
+write.write('<span class="title">Name of interpretation file: <tt>' \
++ str(sys.argv[1]) + '</tt></span><p><p>')
 
 #### WRITE THE OVERLAY FILE ####
 ####                        ####
@@ -299,10 +307,10 @@ write.write('<span class="title">Name of interpretation file: <tt>' + str(sys.ar
 #   tags that end at this position.
 # 4. Write the current character to file. At this point, we will have added
 #   all tags that need to open and close, and all that's left to do is append
-#   write the actual content into the overlay file. We handle this in a special
-#   way: (a) if it's a newline, we also insert a < p> tag so that it looks like
-#   it should when we open it in a browser; (b) in any other case, we just
-#   the actual character.
+#   write the actual content into the overlay file. We handle this in a
+#   special way: (a) if it's a newline, we also insert a < p> tag so that it
+#   looks like it should when we open it in a browser; (b) in any other case,
+#   we just the actual character.
 
 char = True
 charIndex = 0
@@ -312,12 +320,14 @@ bytespanStack = list()
 # Create div#original
 while char:
 	char = read.read(1) #1
-	while bytespanIndex < len(bss) and bss[bytespanIndex].getStart() == charIndex: #2
+	while bytespanIndex < len(bss) \
+	and bss[bytespanIndex].getStart() == charIndex: #2
 		write.write(generateTagOpen(bytespanIndex)) #2a
 		bytespanStack.insert(0, bss[bytespanIndex]) #2b
 		bytespanIndex+=1
 
-	while len(bytespanStack) != 0 and bytespanStack[0].getEnd() == charIndex: #3
+	while len(bytespanStack) != 0 \
+	and bytespanStack[0].getEnd() == charIndex: #3
 		write.write(generateTagClose())
 		bytespanStack.pop(0)
 
@@ -339,15 +349,18 @@ read = open(sys.argv[2], 'rb')
 
 # Create div#tracking
 write.write("<div id=\"tracking\">")
-write.write('<span class="title">Name of interpretation file: <tt>' + str(sys.argv[3]) + '</tt></span><p><p>')
+write.write('<span class="title">Name of interpretation file: <tt>' \
++ str(sys.argv[3]) + '</tt></span><p><p>')
 while char:
 	char = read.read(1) #1
-	while bytespanIndex < len(bss2) and bss2[bytespanIndex].getStart() == charIndex: #2
+	while bytespanIndex < len(bss2) \
+	and bss2[bytespanIndex].getStart() == charIndex: #2
 		write.write(generateTagOpenTracking(bytespanIndex)) #2a
 		bytespanStack.insert(0, bss2[bytespanIndex]) #2b
 		bytespanIndex+=1
 
-	while len(bytespanStack) != 0 and bytespanStack[0].getEnd() == charIndex: #3
+	while len(bytespanStack) != 0 \
+	and bytespanStack[0].getEnd() == charIndex: #3
 		write.write(generateTagClose())
 		bytespanStack.pop(0)
 
