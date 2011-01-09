@@ -29,7 +29,7 @@ class ByteSpan:
 
 	def __str__(self):
 		return str(self.start) + " " + str(self.end) + " " \
-		+ str(self.corefId)
+			+ str(self.corefId)
 
 	def addAssocCorefId(self, id):
 		self.assocCorefId.append(id)
@@ -57,7 +57,7 @@ class ByteSpan:
 
 	def __str__(self):
 		return str(self.start) + " " + str(self.end) + " " \
-		+ str(self.corefId)
+			+ str(self.corefId)
 
 	def printargs(self):
 		print self.start, self.end, self.corefId
@@ -333,7 +333,7 @@ write_outputfile_head(write)
 
 write.write('<div id="original">')
 write.write('<span class="title">Name of interpretation file: <tt>' \
-+ str(sys.argv[1]) + '</tt></span><p><p>')
+	+ str(sys.argv[1]) + '</tt></span><p><p>')
 
 #### WRITE THE OVERLAY FILE ####
 ####                        ####
@@ -389,7 +389,7 @@ read = open(sys.argv[2], 'rb')
 # Create div#tracking
 write.write("<div id=\"tracking\">")
 write.write('<span class="title">Name of interpretation file: <tt>' \
-+ str(sys.argv[3]) + '</tt></span><p><p>')
+	+ str(sys.argv[3]) + '</tt></span><p><p>')
 while char:
 	char = read.read(1) #1
 	while bytespanIndex < len(bss2) \
