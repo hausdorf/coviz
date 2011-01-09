@@ -257,9 +257,8 @@ def add_assoc_corefids_from_bitvector(arr1, arr2, vector):
 	# the following is a nested function that allows us to do the same
 	# operation once each on both incoming arrays without code
 	# duplication or another visible method
-	def add_assoc_corefids_one_array(arr, vector):
+	def add_assoc_corefids_one_array(arr, numberOtherArray, vector):
 		i1 = 0
-		i2 = 0
 		for charIndex in range(len(vector)):
 			#print(str(charIndex) + " " + str(vector[charIndex]))  # Debug!
 			while(i1 < len(arr) and charIndex == arr[i1].getStart()):
@@ -271,7 +270,7 @@ def add_assoc_corefids_from_bitvector(arr1, arr2, vector):
 				tmpi = charIndex
 				while(tmpi < len(vector) and tmpi <= arr[i1].getEnd()):
 					# when we encounter corefid we haven't added, add to list
-					for corefid in vector[tmpi][1]:
+					for corefid in vector[tmpi][numberOtherArray]:
 						ids[corefid] = corefid
 					tmpi += 1
 
@@ -282,8 +281,8 @@ def add_assoc_corefids_from_bitvector(arr1, arr2, vector):
 				i1 += 1
 		return arr
 
-	arr1 = add_assoc_corefids_one_array(arr1, vector)
-	arr2 = add_assoc_corefids_one_array(arr2, vector)
+	arr1 = add_assoc_corefids_one_array(arr1, 1, vector)
+	arr2 = add_assoc_corefids_one_array(arr2, 0, vector)
 	return arr1, arr2
 
 def write_outputfile_head(writeTo):
