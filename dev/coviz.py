@@ -150,6 +150,24 @@ def parse_coref_output(file):
 	return sorted(bss, cmp=orderBss)
 
 def parse_muc_annots(file):
+	# Coreferent NPs in the muc_annots file are (somewhat annoyingly)
+	# annotated linearly.
+	#
+	# It's a bit tricky to explain. So first of all, EVERY SINGLE NP gets
+	# its own ID field. If some NP is coreferent to another NP, then that is
+	# noted in the REF field. So, for example, if you have two coreferent NPs
+	# with IDs 5 and 12, then the NP with the ID of 12 would have a REF field
+	# with a value of 5, which is the ID of the last NP that is coreferent.
+	#
+	# THE TRICKY BIT: The REF field contains only ONE value; in other words,
+	# it represents the ID of the LAST NP that it is coreferent to. We can
+	# derive the entire coref chain by searching backwards using the REF tags.
+	# One example is, if we have a coref chain $ 4 <- 10 <- 15, then the way
+	# to get all the coreferent NPs in that chain would be to traverse it.
+	#
+	# We modify this CS101 algorithm to get the coref chain for the
+	# muc_annots.
+
 	raw2 = open(file, 'r')
 
 	# Create a list of all lines in gold standard key
@@ -167,8 +185,6 @@ def parse_muc_annots(file):
 		words2 = lines2[line2].split()
 		# Split the line up, see if it's coref NP (ie, if words[3] == "COREF")
 		if(words2[3] == "COREF"):
-			# REF element will tell us the id of the previous coreferent NP;
-			# Find it in this line. Also find the ID field; we'll see why
 			ref = -1
 			currId = -1
 			for word in words2:
