@@ -168,39 +168,44 @@ def parse_muc_annots(file):
 	# We modify this CS101 algorithm to get the coref chain for the
 	# muc_annots.
 
-	raw2 = open(file, 'r')
+	raw2 = open(file, 'r')  # open the raw text file
+	lines2 = raw2.readlines()  # the muc_annots file, split into lines
+	bss2 = list()  # holds all bytespan objects
 
-	# Create a list of all lines in gold standard key
-	lines2 = raw2.readlines()
-
-	# Create a list to hold the goldstandard ByteSpan objects
-	bss2 = list()
-
-	# A dictionary containing a base coref id and all associated muc ID fields
+	# will assign a "base" corefid to NPs, and thus help us track which
+	# NPs are part of the same coref chain
 	corefIdTracker = {}
 
-	# Process each line of the goldstandard's KEY, put in ByteSpan object
-	# First begin with one line
+	# Process each of muc_annots's lines
 	for line2 in range(1, len(lines2)):
 		words2 = lines2[line2].split()
-		# Split the line up, see if it's coref NP (ie, if words[3] == "COREF")
+		# NPs will are noted as type "COREF"
 		if(words2[3] == "COREF"):
-			ref = -1
-			currId = -1
+			ref = -1  # holds the value of REF; set to "safe" value
+			currId = -1  # holds the current NP's ID field
+
 			for word in words2:
+				# set vars tracking this NP's REF and ID fields as we get them
 				if(word[:5] == 'REF="'):
 					ref = filter(lambda x: x in '1234567890', word)
 				if(word[:4] == 'ID="'):
 					currId = filter(lambda x: x in '1234567890', word)
 
-			# set the last
-			baseId = -1
+			baseId = -1  # all coreferet NPs get the same baseId
+
+			# Important: set the baseId
+			#
+			# IF the current NP had no ref tag, it is the first NP in a chain.
+			# Thus, ITS ID BECOMES THE baseId!
 			if(ref == -1):
 				baseId = currId
+			# ELSE, look at the baseId of the previous NP, set the current
+			# NP's baseId to be that baseId, and continue
 			else:
 				baseId = corefIdTracker[ref]
 			corefIdTracker[currId] = baseId
 
+			# Finally, create the Bytespan object
 			byteRange2 = words2[1].split(",")
 			bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), baseId)
 			bss2.append(bs2)
