@@ -158,13 +158,35 @@ def parse_muc_annots(file):
 	# Create a list to hold the goldstandard ByteSpan objects
 	bss2 = list()
 
+	# A dictionary containing a base coref id and all associated muc ID fields
+	corefIdTracker = {}
+
 	# Process each line of the goldstandard's KEY, put in ByteSpan object
+	# First begin with one line
 	for line2 in range(1, len(lines2)):
 		words2 = lines2[line2].split()
+		# Split the line up, see if it's coref NP (ie, if words[3] == "COREF")
 		if(words2[3] == "COREF"):
+			# REF element will tell us the id of the previous coreferent NP;
+			# Find it in this line. Also find the ID field; we'll see why
+			ref = -1
+			currId = -1
+			for word in words2:
+				if(word[:5] == 'REF="'):
+					ref = filter(lambda x: x in '1234567890', word)
+				if(word[:4] == 'ID="'):
+					currId = filter(lambda x: x in '1234567890', word)
+
+			# set the last
+			baseId = -1
+			if(ref == -1):
+				baseId = currId
+			else:
+				baseId = corefIdTracker[ref]
+			corefIdTracker[currId] = baseId
+
 			byteRange2 = words2[1].split(",")
-			id2 = filter(lambda x: x in '1234567890', words2[4])
-			bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), int(id2))
+			bs2 = ByteSpan(int(byteRange2[0]), int(byteRange2[1]), baseId)
 			bss2.append(bs2)
 
 	return sorted(bss2, cmp=orderBss)
